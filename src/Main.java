@@ -1,6 +1,6 @@
 import mainloop.FixedTimeLoop;
 import resource.ResourceController;
-import sound.midi.MusicController;
+import midi.MusicController;
 import util.observer.AbstractObserver;
 import window.WindowController;
 
@@ -61,12 +61,7 @@ final class Main {
     }
 
     private static void makeCleanupReceiver() {
-        cleanupReceiver = new AbstractObserver() {
-            @Override
-            public void update() {
-                cleanUp();
-            }
-        };
+        cleanupReceiver = Main::cleanUp;
     }
 
     private static void makeResourceController() {

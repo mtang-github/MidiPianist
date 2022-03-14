@@ -1,4 +1,4 @@
-package sound.midi;
+package midi;
 
 import util.observer.AbstractObserver;
 import util.observer.AbstractPushObserver;

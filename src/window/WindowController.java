@@ -22,6 +22,7 @@ public class WindowController {
         frame = new Frame(width, height, title, (JComponent)graphicalDisplay);
     }
 
+    //todo: combine these two, when we send the image immediately render it
     public AbstractPushObserver<BufferedImage> getImageReceiver(){
         return graphicalDisplay.getImageReceiver();
     }

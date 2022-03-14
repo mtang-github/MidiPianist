@@ -1,4 +1,4 @@
-package sound.midi;
+package midi;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;

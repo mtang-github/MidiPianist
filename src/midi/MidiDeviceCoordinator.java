@@ -1,4 +1,4 @@
-package sound.midi;
+package midi;
 
 import javax.sound.midi.MidiDevice;
 import javax.sound.midi.Sequencer;
