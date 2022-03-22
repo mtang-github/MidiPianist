@@ -66,7 +66,7 @@ final class Main {
 
     private static void makeResourceController() {
         resourceController = ResourceController.makeResourceController(ResourceTypes.values());
-        //todo load files
+        resourceController.loadFile("res");
     }
 
     private static void makeWindowController() {

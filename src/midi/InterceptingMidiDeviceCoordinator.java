@@ -1,19 +1,25 @@
 package midi;
 
+import util.observer.ConfigurablePushSubject;
+import util.tuple.Tuple2;
+
 import javax.sound.midi.MidiDevice;
+import javax.sound.midi.MidiMessage;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Receiver;
 import javax.sound.midi.Sequencer;
 import javax.sound.midi.Transmitter;
 
-class DefaultMidiDeviceCoordinator implements MidiDeviceCoordinator{
+class InterceptingMidiDeviceCoordinator implements MidiDeviceCoordinator{
+    //todo: microsoft specific
     private static final String DEFAULT_SYNTH_NAME = "Microsoft MIDI Mapper";
 
     private static Sequencer sequencer;
+    private static MidiMessageInterceptor interceptor;
     private static MidiDevice synth;
 
-    public DefaultMidiDeviceCoordinator(){
+    public InterceptingMidiDeviceCoordinator(){
         init();
     }
 
@@ -31,6 +37,12 @@ class DefaultMidiDeviceCoordinator implements MidiDeviceCoordinator{
         }
         return synth;
     }
+    public ConfigurablePushSubject<Tuple2<MidiMessage, Long>> getMidiMessageBroadcaster() {
+        if(interceptor == null){
+            init();
+        }
+        return interceptor.getMidiMessageBroadcaster();
+    }
 
     private static void init(){
         sequencer = getMidiSystemSequencer();
@@ -43,7 +55,10 @@ class DefaultMidiDeviceCoordinator implements MidiDeviceCoordinator{
         Transmitter sequencerTransmitter = getTransmitterOfSequencer(sequencer);
         clearTransmitter(sequencerTransmitter);
 
-        sequencerTransmitter.setReceiver(synthReceiver);
+        interceptor = new MidiMessageInterceptor();
+
+        sequencerTransmitter.setReceiver(interceptor);
+        interceptor.setReceiver(synthReceiver);
 
         openSynth(synth);
         openSequencer(sequencer);
@@ -133,8 +148,9 @@ class DefaultMidiDeviceCoordinator implements MidiDeviceCoordinator{
 
     @Override
     public void cleanUp(){
-        synth.close();
         sequencer.stop();
+        synth.close();
+        interceptor.close();
         sequencer.close();
     }
 }

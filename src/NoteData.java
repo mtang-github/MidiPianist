@@ -1,38 +1,40 @@
-import java.util.Arrays;
-
 public class NoteData {
 
-    private final NoteState[] noteStates = new NoteState[128];
+    private final ChannelNoteData[] channelNoteData;
 
-    public void pressNote(byte note){
-        noteStates[note] = NoteState.PRESSED;
+    public NoteData(){
+        channelNoteData = new ChannelNoteData[16];
+        for(int i = 0; i < 16; ++i){
+            channelNoteData[i] = new ChannelNoteData();
+        }
     }
 
-    public void releaseNote(byte note){
-        if(noteStates[note] != NoteState.RELEASED){
-            noteStates[note] = NoteState.PRESSED_AND_RELEASED;
-        }
-        else{
-            noteStates[note] = NoteState.RELEASED;
-        }
+    /**
+     * Returns true if the specified note has been pressed since the last update, false otherwise
+     * @param note - the specified note
+     * @return true if the specified note has been pressed since the last update, false otherwise
+     */
+    public boolean hasBeenPressed(int channel, int note){
+        return channelNoteData[channel].getNote(note);
+    }
+
+    public void pressNote(int channel, int note){
+        channelNoteData[channel].pressNote(note);
+    }
+
+    public void releaseNote(int channel, int note){
+        channelNoteData[channel].releaseNote(note);
     }
 
     public void updateNotes(){
-        for(int i = 0; i < 128; ++i){
-            if(noteStates[i] == NoteState.PRESSED_AND_RELEASED){
-                noteStates[i] = NoteState.RELEASED;
-            }
+        for(int i = 0; i < 16; ++i){
+            channelNoteData[i].updateNotes();
         }
     }
 
     public void reset(){
-        Arrays.fill(noteStates, NoteState.RELEASED);
-    }
-
-    public enum NoteState{
-        PRESSED,
-        PRESSED_AND_RELEASED,
-        RELEASED,
-        ;
+        for(int i = 0; i < 16; ++i){
+            channelNoteData[i].reset();
+        }
     }
 }

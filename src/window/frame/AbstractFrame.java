@@ -17,15 +17,16 @@ public abstract class AbstractFrame extends JFrame {
     public AbstractFrame(){
         this.windowCloseBroadcaster = makeWindowCloseBroadcaster();
     }
+
+    //todo what's the point of blockable?
     public AbstractBlockableSubject makeWindowCloseBroadcaster(){
         AbstractBlockableSubject windowCloseBroadcaster = new BlockableSubject();
-        WindowAdapter windowAdapter = new WindowAdapter() {
+        addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
                 windowCloseBroadcaster.broadcast();
             }
-        };
-        addWindowListener(windowAdapter);
+        });
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentShown(ComponentEvent e) {
