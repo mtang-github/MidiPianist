@@ -1,25 +1,15 @@
+import midi.MidiConstants;
 import util.observer.AbstractPushObserver;
-import util.tuple.Tuple2;
+import util.Tuple2;
 
 import javax.sound.midi.MidiMessage;
 import javax.sound.midi.ShortMessage;
 
 public class NoteDataUpdater implements AbstractPushObserver<Tuple2<MidiMessage, Long>> {
 
-    private NoteData noteData;
+    private final NoteData noteData;
 
-    public NoteDataUpdater(){
-        noteData = null;
-    }
     public NoteDataUpdater(NoteData noteData){
-        this.noteData = noteData;
-    }
-
-    public NoteData getNoteData() {
-        return noteData;
-    }
-
-    public void setNoteData(NoteData noteData) {
         this.noteData = noteData;
     }
 
@@ -27,7 +17,7 @@ public class NoteDataUpdater implements AbstractPushObserver<Tuple2<MidiMessage,
     public void update(Tuple2<MidiMessage, Long> data) {
         MidiMessage message = data.a();
         if(message instanceof ShortMessage shortMessage){
-            switch(shortMessage.getStatus()){
+            switch(shortMessage.getCommand()){
                 case ShortMessage.NOTE_ON -> {
                     int velocity = shortMessage.getData2();
                     if(velocity > 0) {

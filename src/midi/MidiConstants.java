@@ -1,3 +1,8 @@
+package midi;
+
+/**
+ * A collection of constants relevant to low level midi
+ */
 @SuppressWarnings("unused")
 public class MidiConstants{
 

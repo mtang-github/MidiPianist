@@ -1,7 +1,7 @@
 package midi;
 
 import util.observer.ConfigurablePushSubject;
-import util.tuple.Tuple2;
+import util.Tuple2;
 
 import javax.sound.midi.MidiDevice;
 import javax.sound.midi.MidiMessage;
@@ -11,7 +11,7 @@ import javax.sound.midi.Receiver;
 import javax.sound.midi.Sequencer;
 import javax.sound.midi.Transmitter;
 
-class InterceptingMidiDeviceCoordinator implements MidiDeviceCoordinator{
+class InterceptingMidiDeviceCoordinator {
     //todo: microsoft specific
     private static final String DEFAULT_SYNTH_NAME = "Microsoft MIDI Mapper";
 
@@ -23,14 +23,12 @@ class InterceptingMidiDeviceCoordinator implements MidiDeviceCoordinator{
         init();
     }
 
-    @Override
     public Sequencer getSequencer() {
         if(sequencer == null){
             init();
         }
         return sequencer;
     }
-    @Override
     public MidiDevice getSynth() {
         if(synth == null){
             init();
@@ -146,7 +144,6 @@ class InterceptingMidiDeviceCoordinator implements MidiDeviceCoordinator{
         }
     }
 
-    @Override
     public void cleanUp(){
         sequencer.stop();
         synth.close();

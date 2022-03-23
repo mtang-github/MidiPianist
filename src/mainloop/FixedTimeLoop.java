@@ -3,27 +3,37 @@ package mainloop;
 import util.observer.AbstractSubject;
 import util.observer.Subject;
 
-public class FixedTimeLoop extends AbstractThreadedMainLoop {
+public class FixedTimeLoop {
 
-    private boolean running = true;
-    private final int updatesPerSecond;
-    private int millisBetweenUpdates;
+    private static final String THREAD_NAME = "main loop";
 
     private final AbstractSubject fixedTimeBroadcaster;
 
+    private final int millisBetweenUpdates;
+
+    private boolean running = true;
+
     public FixedTimeLoop(int updatesPerSecond) {
         fixedTimeBroadcaster = new Subject();
-        this.updatesPerSecond = updatesPerSecond;
-        calcMillisBetweenUpdates();
+        millisBetweenUpdates = calcMillisBetweenUpdates(updatesPerSecond);
     }
 
-    private void calcMillisBetweenUpdates(){
+    private static int calcMillisBetweenUpdates(int updatesPerSecond){
         double millisPerSecond = 1000d;
-        millisBetweenUpdates = (int)(millisPerSecond/updatesPerSecond);
+        return (int)(millisPerSecond/updatesPerSecond);
     }
 
-    @Override
-    protected void threadAction() {
+    public final void begin() {
+        Thread thread = new Thread(THREAD_NAME){
+            @Override
+            public void run() {
+                threadAction();
+            }
+        };
+        thread.start();
+    }
+
+    private void threadAction() {
         long nextUpdateMillis = System.currentTimeMillis();
 
         while(running) {
@@ -38,7 +48,6 @@ public class FixedTimeLoop extends AbstractThreadedMainLoop {
         fixedTimeBroadcaster.broadcast();
     }
 
-    @Override
     public void end(){
         running = false;
     }

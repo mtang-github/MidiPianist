@@ -1,4 +1,4 @@
-import util.math.geometry.DoublePoint;
+import util.DoublePoint;
 
 public class NoteDisplay {
     private final DoublePoint pos;
@@ -17,7 +17,7 @@ public class NoteDisplay {
         return pos;
     }
 
-    public String getImage() {
+    public String getSimage() {
         return pressed ? downSimage : upSimage;
     }
 

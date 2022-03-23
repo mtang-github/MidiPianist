@@ -1,13 +1,16 @@
 import mainloop.FixedTimeLoop;
 import resource.ResourceController;
 import midi.MusicController;
+import util.file.FileUtil;
 import util.observer.AbstractObserver;
 import window.WindowController;
 
+import java.io.File;
+
 final class Main {
 
-    private static final int WIDTH = 100;
-    private static final int HEIGHT = 100;
+    private static final int WIDTH = 750;
+    private static final int HEIGHT = 480;
     private static final String TITLE = "MidiPianist";
 
     private static final int FRAMES_PER_SECOND = 60;
@@ -17,6 +20,7 @@ final class Main {
     private static ResourceController resourceController;
     private static WindowController windowController;
     private static MusicController musicController;
+    private static DisplayController displayController;
 
     private static AbstractObserver cleanupReceiver;
 
@@ -45,13 +49,19 @@ final class Main {
             return;
         }
 
+        makeWindowController();
+        if (Thread.interrupted()) {
+            cleanUp();
+            return;
+        }
+
         makeMusicController();
         if (Thread.interrupted()) {
             cleanUp();
             return;
         }
 
-        makeWindowController();
+        makeDisplayController();
         if (Thread.interrupted()) {
             cleanUp();
             return;
@@ -78,10 +88,17 @@ final class Main {
         musicController = new MusicController();
     }
 
+    private static void makeDisplayController(){
+        displayController = new DisplayController(WIDTH, HEIGHT, resourceController.getResourceManager(ResourceTypes.IMAGE));
+        displayController.getImageBroadcaster().attach(windowController.getImageReceiver());
+        musicController.getMidiMessageBroadcaster().attach(displayController.getMidiMessageReceiver());
+    }
+
     private static void makeAndRunGameLoop() {
         mainLoop = new FixedTimeLoop(FRAMES_PER_SECOND);
-        //todo attach mainLoop to other shit
+        mainLoop.getFixedTimeBroadcaster().attach(displayController.getUpdateReceiver());
         mainLoop.begin();
+        musicController.getTrackStartReceiver().update(FileUtil.makeInputStream(new File("res/test.mid")));
     }
 
     private static void cleanUp() {

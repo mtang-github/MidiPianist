@@ -1,16 +1,20 @@
 package midi;
 
 import util.observer.ConfigurablePushSubject;
-import util.tuple.Tuple2;
+import util.Tuple2;
 
 import javax.sound.midi.MidiMessage;
 import javax.sound.midi.Receiver;
 import javax.sound.midi.Transmitter;
 
-public class MidiMessageInterceptor implements Transmitter, Receiver {
+/**
+ * A midi device which intercepts and rebroadcasts messages
+ */
+class MidiMessageInterceptor implements Transmitter, Receiver {
+
+    private final ConfigurablePushSubject<Tuple2<MidiMessage, Long>> midiMessageBroadcaster;
 
     private boolean closed;
-    private final ConfigurablePushSubject<Tuple2<MidiMessage, Long>> midiMessageBroadcaster;
     private Receiver receiver;
 
     /**

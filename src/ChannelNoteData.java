@@ -5,7 +5,12 @@ import java.util.Arrays;
  */
 public class ChannelNoteData {
 
-    private final NoteState[] noteStates = new NoteState[128];
+    private final NoteState[] noteStates;
+
+    public ChannelNoteData(){
+        noteStates = new NoteState[128];
+        Arrays.fill(noteStates, NoteState.RELEASED);
+    }
 
     /**
      * Returns true if the specified note has been pressed since the last update, false otherwise
