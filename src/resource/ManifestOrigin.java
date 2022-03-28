@@ -1,5 +1,6 @@
 package resource;
 
+@SuppressWarnings("ClassCanBeRecord")
 public class ManifestOrigin implements AbstractResourceOrigin {
 
     private final String[] metadata;

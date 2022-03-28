@@ -52,6 +52,7 @@ public abstract class AbstractResourceType<T> {
         throw new UnsupportedOperationException(this.getClass().getName() + " does not support writing to FileOrigin");
     }
 
+    @SuppressWarnings("EmptyMethod")
     protected void cleanUpData(T data){}
 
     private void throwIfNotAcceptingLoader(){
@@ -63,6 +64,7 @@ public abstract class AbstractResourceType<T> {
         return false;
     }
 
+    @SuppressWarnings("SameReturnValue")
     protected boolean requiresCleanUp(){
         return false;
     }

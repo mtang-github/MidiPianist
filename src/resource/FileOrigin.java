@@ -4,6 +4,7 @@ import util.file.FileUtil;
 
 import java.io.File;
 
+@SuppressWarnings("ClassCanBeRecord")
 public class FileOrigin implements AbstractResourceOrigin {
     private final File file;
 

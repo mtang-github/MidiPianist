@@ -1,7 +1,7 @@
 package midi;
 
-import util.observer.ConfigurablePushSubject;
 import util.Tuple2;
+import util.observer.ISubject;
 
 import javax.sound.midi.MidiDevice;
 import javax.sound.midi.MidiMessage;
@@ -35,7 +35,7 @@ class InterceptingMidiDeviceCoordinator {
         }
         return synth;
     }
-    public ConfigurablePushSubject<Tuple2<MidiMessage, Long>> getMidiMessageBroadcaster() {
+    public ISubject<Tuple2<MidiMessage, Long>> getMidiMessageBroadcaster() {
         if(interceptor == null){
             init();
         }

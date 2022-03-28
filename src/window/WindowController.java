@@ -1,7 +1,7 @@
 package window;
 
-import util.observer.AbstractPushObserver;
-import util.observer.AbstractSubject;
+import util.observer.IObserver;
+import util.observer.ISubject;
 import window.frame.AbstractFrame;
 import window.frame.Frame;
 
@@ -21,10 +21,10 @@ public class WindowController {
         frame = new Frame(width, height, title, (JComponent)graphicalDisplay);
     }
 
-    public AbstractPushObserver<BufferedImage> getImageReceiver(){
+    public IObserver<BufferedImage> getImageReceiver(){
         return graphicalDisplay.getImageReceiver();
     }
-    public AbstractSubject getWindowCloseBroadcaster(){
+    public ISubject<Void> getWindowCloseBroadcaster(){
         return frame.getWindowCloseBroadcaster();
     }
 }

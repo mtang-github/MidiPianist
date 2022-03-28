@@ -1,9 +1,8 @@
 package midi;
 
-import util.observer.AbstractObserver;
-import util.observer.AbstractPushObserver;
-import util.observer.ConfigurablePushSubject;
 import util.Tuple2;
+import util.observer.IObserver;
+import util.observer.ISubject;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiMessage;
@@ -14,8 +13,8 @@ import java.io.InputStream;
 public class MusicController {
 
     private final InterceptingMidiDeviceCoordinator midiDeviceCoordinator;
-    private final AbstractPushObserver<InputStream> trackStartReceiver;
-    private final AbstractObserver sequencerResetReceiver;
+    private final IObserver<InputStream> trackStartReceiver;
+    private final IObserver<Void> sequencerResetReceiver;
 
     public MusicController(){
         this.midiDeviceCoordinator = new InterceptingMidiDeviceCoordinator();
@@ -38,20 +37,20 @@ public class MusicController {
         sequencer.stop();
     }
 
-    private AbstractPushObserver<InputStream> makeTrackStartReceiver(){
+    private IObserver<InputStream> makeTrackStartReceiver(){
         return this::startTrack;
     }
-    private AbstractObserver makeSequencerResetReceiver(){
-        return () -> resetSequencer(midiDeviceCoordinator.getSequencer());
+    private IObserver<Void> makeSequencerResetReceiver(){
+        return (Void) -> resetSequencer(midiDeviceCoordinator.getSequencer());
     }
 
-    public AbstractPushObserver<InputStream> getTrackStartReceiver(){
+    public IObserver<InputStream> getTrackStartReceiver(){
         return trackStartReceiver;
     }
-    public AbstractObserver getSequencerResetReceiver(){
+    public IObserver<Void> getSequencerResetReceiver(){
         return sequencerResetReceiver;
     }
-    public ConfigurablePushSubject<Tuple2<MidiMessage, Long>> getMidiMessageBroadcaster() {
+    public ISubject<Tuple2<MidiMessage, Long>> getMidiMessageBroadcaster() {
         return midiDeviceCoordinator.getMidiMessageBroadcaster();
     }
 

@@ -1,13 +1,20 @@
-import mainloop.FixedTimeLoop;
+import mainloop.ThreadedFixedTimeLoop;
 import resource.ResourceController;
 import midi.MusicController;
 import util.file.FileUtil;
-import util.observer.AbstractObserver;
+import util.observer.IObserver;
 import window.WindowController;
 
 import java.io.File;
 
+/**
+ * The MidiPianist program creates a GUI representing the 16 channels of a MIDI file and
+ * plays MIDI files, updating the graphical representation of the channels in real time
+ * depending on what notes are played.
+ */
 final class Main {
+
+    private static final String RESOURCE_FOLDER = "res";
 
     private static final int WIDTH = 750;
     private static final int HEIGHT = 480;
@@ -22,12 +29,16 @@ final class Main {
     private static MusicController musicController;
     private static DisplayController displayController;
 
-    private static AbstractObserver cleanupReceiver;
+    private static IObserver<Void> cleanupReceiver;
 
-    private static FixedTimeLoop mainLoop;
+    private static ThreadedFixedTimeLoop mainLoop;
 
+    /**
+     * The entry point of the program.
+     * @param args unused
+     */
     public static void main(String[] args) {
-        setupThread = new Thread("setup") {
+        setupThread = new Thread("Setup") {
             @Override
             public void run() {
                 setupThread = Thread.currentThread();
@@ -38,6 +49,9 @@ final class Main {
         setupThread.start();
     }
 
+    /**
+     * Sets up and coordinates the various high-level parts of the program and starts the main loop.
+     */
     private static void setup() {
         System.setProperty("sun.java2d.d3d", "true");
 
@@ -70,37 +84,59 @@ final class Main {
         makeAndRunGameLoop();
     }
 
+    /**
+     * Creates the cleanup receiver which calls {@link #cleanUp} upon receiving a broadcast.
+     */
     private static void makeCleanupReceiver() {
-        cleanupReceiver = Main::cleanUp;
+        cleanupReceiver = (Void) -> cleanUp();
     }
 
+    /**
+     * Creates the {@link ResourceController} and loads all the files in the resource folder.
+     */
     private static void makeResourceController() {
         resourceController = ResourceController.makeResourceController(ResourceTypes.values());
-        resourceController.loadFile("res");
+        resourceController.loadFile(RESOURCE_FOLDER);
     }
 
+    /**
+     * Creates the {@link WindowController} and attaches the cleanup receiver to it.
+     */
     private static void makeWindowController() {
         windowController = new WindowController(WIDTH, HEIGHT, TITLE);
         windowController.getWindowCloseBroadcaster().attach(cleanupReceiver);
     }
 
+    /**
+     * Creates the {@link MusicController}.
+     */
     private static void makeMusicController() {
         musicController = new MusicController();
     }
 
+    /**
+     * Creates the {@link DisplayController} and attaches it to the window and music controllers
+     */
     private static void makeDisplayController(){
         displayController = new DisplayController(WIDTH, HEIGHT, resourceController.getResourceManager(ResourceTypes.IMAGE));
         displayController.getImageBroadcaster().attach(windowController.getImageReceiver());
         musicController.getMidiMessageBroadcaster().attach(displayController.getMidiMessageReceiver());
     }
 
+    /**
+     * Creates the {@link ThreadedFixedTimeLoop}, attaches it to the display controller, and begins the main loop.
+     */
     private static void makeAndRunGameLoop() {
-        mainLoop = new FixedTimeLoop(FRAMES_PER_SECOND);
+        mainLoop = new ThreadedFixedTimeLoop(FRAMES_PER_SECOND);
         mainLoop.getFixedTimeBroadcaster().attach(displayController.getUpdateReceiver());
         mainLoop.begin();
+        //todo test midi
         musicController.getTrackStartReceiver().update(FileUtil.makeInputStream(new File("res/test.mid")));
     }
 
+    /**
+     * Cleans up program resources and ends the program.
+     */
     private static void cleanUp() {
         if (setupThread != null) {
             setupThread.interrupt();

@@ -1,18 +1,19 @@
 package midi;
 
-import util.observer.ConfigurablePushSubject;
 import util.Tuple2;
+import util.observer.ISubject;
+import util.observer.Subject;
 
 import javax.sound.midi.MidiMessage;
 import javax.sound.midi.Receiver;
 import javax.sound.midi.Transmitter;
 
 /**
- * A midi device which intercepts and rebroadcasts messages
+ * A {@code MidiMessageInterceptor} intercepts and rebroadcasts messages.
  */
 class MidiMessageInterceptor implements Transmitter, Receiver {
 
-    private final ConfigurablePushSubject<Tuple2<MidiMessage, Long>> midiMessageBroadcaster;
+    private final Subject<Tuple2<MidiMessage, Long>> midiMessageBroadcaster;
 
     private boolean closed;
     private Receiver receiver;
@@ -22,12 +23,11 @@ class MidiMessageInterceptor implements Transmitter, Receiver {
      */
     public MidiMessageInterceptor(){
         closed = false;
-        midiMessageBroadcaster = new ConfigurablePushSubject<>();
+        midiMessageBroadcaster = new Subject<>();
         receiver = null;
     }
 
-    //todo this allows callers to call broadcast()... probably need to rethink this
-    public ConfigurablePushSubject<Tuple2<MidiMessage, Long>> getMidiMessageBroadcaster() {
+    public ISubject<Tuple2<MidiMessage, Long>> getMidiMessageBroadcaster() {
         return midiMessageBroadcaster;
     }
 
@@ -44,9 +44,7 @@ class MidiMessageInterceptor implements Transmitter, Receiver {
         if(closed){
             throw new IllegalStateException("This MidiEventInterceptor is closed");
         }
-        //broadcast to listeners
-        midiMessageBroadcaster.setPushData(new Tuple2<>(message, timeStamp));
-        midiMessageBroadcaster.broadcast();
+        midiMessageBroadcaster.broadcast(new Tuple2<>(message, timeStamp));
         if(receiver != null) {
             receiver.send(message, timeStamp);
         }
@@ -76,21 +74,7 @@ class MidiMessageInterceptor implements Transmitter, Receiver {
     }
 
     /**
-     * Indicates that the application has finished using the transmitter, and
-     * that limited resources it requires may be released or made available.
-     * <p>
-     * If the creation of this {@code Transmitter} resulted in implicitly
-     * opening the underlying device, the device is implicitly closed by this
-     * method. This is true unless the device is kept open by other
-     * {@code Receiver} or {@code Transmitter} instances that opened the device
-     * implicitly, and unless the device has been opened explicitly. If the
-     * device this {@code Transmitter} is retrieved from is closed explicitly by
-     * calling {@link MidiDevice#close MidiDevice.close}, the
-     * {@code Transmitter} is closed, too. For a detailed description of
-     * open/close behaviour see the class description of
-     * {@link MidiDevice MidiDevice}.
-     *
-     * @see MidiSystem#getTransmitter
+     * Closes this interceptor, meaning all calls to {@link #send} will throw exceptions.
      */
     @Override
     public void close(){

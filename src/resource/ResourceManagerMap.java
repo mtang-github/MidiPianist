@@ -17,7 +17,7 @@ class ResourceManagerMap {
         }
     }
 
-    //why did i separate these int two methods?
+    //why did I separate these into methods?
     public <T> void addNewType(AbstractResourceType<T> type) {
         put(type, new HashMapResourceManager<>());
     }

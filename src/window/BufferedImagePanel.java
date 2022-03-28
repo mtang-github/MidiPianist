@@ -1,26 +1,22 @@
 package window;
 
-import util.observer.AbstractPushObserver;
+import util.observer.IObserver;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class BufferedImagePanel extends JPanel implements AbstractGraphicalDisplay {
+    private final IObserver<BufferedImage> imageReceiver;
     private BufferedImage image;
-    private AbstractPushObserver<BufferedImage> imageReceiver;
 
     public BufferedImagePanel(int width, int height){
         setBackground(Color.BLACK);
         image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-        makeGraphicalObservers();
-    }
-
-    private void makeGraphicalObservers(){
         imageReceiver = makeImageReceiver();
     }
 
-    private AbstractPushObserver<BufferedImage> makeImageReceiver() {
+    private IObserver<BufferedImage> makeImageReceiver() {
         return data -> {
             setImage(data);
             repaint();
@@ -32,7 +28,7 @@ public class BufferedImagePanel extends JPanel implements AbstractGraphicalDispl
     }
 
     @Override
-    public AbstractPushObserver<BufferedImage> getImageReceiver() {
+    public IObserver<BufferedImage> getImageReceiver() {
         return imageReceiver;
     }
 

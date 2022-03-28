@@ -1,5 +1,5 @@
 package util.observer;
 
-public interface AbstractPushObserver<T> {
+public interface IObserver<T> {
     void update(T data);
 }

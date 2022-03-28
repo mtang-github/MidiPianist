@@ -1,8 +1,8 @@
 import resource.AbstractResourceManager;
-import util.observer.AbstractObserver;
-import util.observer.AbstractPushObserver;
-import util.observer.ConfigurablePushSubject;
 import util.Tuple2;
+import util.observer.IObserver;
+import util.observer.ISubject;
+import util.observer.Subject;
 
 import javax.sound.midi.MidiMessage;
 import java.awt.*;
@@ -10,9 +10,9 @@ import java.awt.image.BufferedImage;
 
 public class DisplayController {
 
-    private final AbstractObserver updateReceiver;
-    private final ConfigurablePushSubject<BufferedImage> imageBroadcaster;
-    private final AbstractPushObserver<Tuple2<MidiMessage, Long>> midiMessageReceiver;
+    private final IObserver<Void> updateReceiver;
+    private final Subject<BufferedImage> imageBroadcaster;
+    private final IObserver<Tuple2<MidiMessage, Long>> midiMessageReceiver;
 
     private final BufferedImage toDraw;
     private final NoteData noteData;
@@ -23,32 +23,31 @@ public class DisplayController {
         noteData = new NoteData();
         pianoDisplay = new PianoDisplay(imageManager);
         updateReceiver = makeUpdateReceiver();
-        imageBroadcaster = new ConfigurablePushSubject<>();
+        imageBroadcaster = new Subject<>();
         midiMessageReceiver = new NoteDataUpdater(noteData);
     }
 
-    private AbstractObserver makeUpdateReceiver(){
-        return () -> {
+    private IObserver<Void> makeUpdateReceiver(){
+        return (Void) -> {
             pianoDisplay.readAndUpdateNoteData(noteData);
 
             Graphics2D g2d = toDraw.createGraphics();
             pianoDisplay.drawOn(g2d);
             g2d.dispose();
 
-            imageBroadcaster.setPushData(toDraw);
-            imageBroadcaster.broadcast();
+            imageBroadcaster.broadcast(toDraw);
         };
     }
 
-    public AbstractObserver getUpdateReceiver() {
+    public IObserver<Void> getUpdateReceiver() {
         return updateReceiver;
     }
 
-    public ConfigurablePushSubject<BufferedImage> getImageBroadcaster() {
+    public ISubject<BufferedImage> getImageBroadcaster() {
         return imageBroadcaster;
     }
 
-    public AbstractPushObserver<Tuple2<MidiMessage, Long>> getMidiMessageReceiver() {
+    public IObserver<Tuple2<MidiMessage, Long>> getMidiMessageReceiver() {
         return midiMessageReceiver;
     }
 }

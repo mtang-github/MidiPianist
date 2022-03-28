@@ -39,6 +39,7 @@ public class PianoDisplay {
         }
     }
 
+    @SuppressWarnings("EnhancedSwitchMigration")
     private static boolean isWhiteNote(int pitchClass){
         if(pitchClass < 0){
             throw new RuntimeException("invalid pitch class : " + pitchClass);
@@ -79,7 +80,6 @@ public class PianoDisplay {
     }
 
     public void drawOn(Graphics2D g2d){
-        //todo: draw each pitch class at a time, i.e. += 12
         for(int channel = 0; channel < 16; ++channel){
             //draw all the white notes
             for(int pitchClass = 0; pitchClass < 12; ++pitchClass){

@@ -1,9 +1,9 @@
 package window;
 
-import util.observer.AbstractPushObserver;
+import util.observer.IObserver;
 
 import java.awt.image.BufferedImage;
 
 public interface AbstractGraphicalDisplay {
-    AbstractPushObserver<BufferedImage> getImageReceiver();
+    IObserver<BufferedImage> getImageReceiver();
 }
