@@ -1,6 +1,6 @@
 import mainloop.ThreadedFixedTimeLoop;
 import resource.ResourceController;
-import midi.MusicController;
+import midi.MidiController;
 import util.file.FileUtil;
 import util.observer.IObserver;
 import window.WindowController;
@@ -26,7 +26,7 @@ final class Main {
 
     private static ResourceController resourceController;
     private static WindowController windowController;
-    private static MusicController musicController;
+    private static MidiController midiController;
     private static DisplayController displayController;
 
     private static IObserver<Void> cleanupReceiver;
@@ -108,10 +108,10 @@ final class Main {
     }
 
     /**
-     * Creates the {@link MusicController}.
+     * Creates the {@link MidiController}.
      */
     private static void makeMusicController() {
-        musicController = new MusicController();
+        midiController = new MidiController();
     }
 
     /**
@@ -120,7 +120,7 @@ final class Main {
     private static void makeDisplayController(){
         displayController = new DisplayController(WIDTH, HEIGHT, resourceController.getResourceManager(ResourceTypes.IMAGE));
         displayController.getImageBroadcaster().attach(windowController.getImageReceiver());
-        musicController.getMidiMessageBroadcaster().attach(displayController.getMidiMessageReceiver());
+        midiController.getMidiMessageBroadcaster().attach(displayController.getMidiMessageReceiver());
     }
 
     /**
@@ -131,7 +131,7 @@ final class Main {
         mainLoop.getFixedTimeBroadcaster().attach(displayController.getUpdateReceiver());
         mainLoop.begin();
         //todo test midi
-        musicController.getTrackStartReceiver().update(FileUtil.makeInputStream(new File("res/test.mid")));
+        midiController.getTrackStartReceiver().update(FileUtil.makeInputStream(new File("res/test.mid")));
     }
 
     /**
@@ -148,9 +148,9 @@ final class Main {
             mainLoop.end();
             mainLoop = null;
         }
-        if (musicController != null) {
-            musicController.cleanUp();
-            musicController = null;
+        if (midiController != null) {
+            midiController.cleanUp();
+            midiController = null;
         }
         if (resourceController != null) {
             resourceController.cleanUp();

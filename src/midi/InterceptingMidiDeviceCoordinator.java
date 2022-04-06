@@ -11,6 +11,10 @@ import javax.sound.midi.Receiver;
 import javax.sound.midi.Sequencer;
 import javax.sound.midi.Transmitter;
 
+/**
+ * An {@code InterceptingMidiDeviceCoordinator} coordinates a sequencer and a synthesizer while also offering a MIDI
+ * message broadcaster which rebroadcasts all messages output by the sequencer.
+ */
 class InterceptingMidiDeviceCoordinator {
     //todo: microsoft specific
     private static final String DEFAULT_SYNTH_NAME = "Microsoft MIDI Mapper";
@@ -19,22 +23,43 @@ class InterceptingMidiDeviceCoordinator {
     private static MidiMessageInterceptor interceptor;
     private static MidiDevice synth;
 
+    /**
+     * Constructs an {@code InterceptingMidiDeviceCoordinator}, initiating the sequencer-interceptor-synthesizer
+     * system.
+     */
     public InterceptingMidiDeviceCoordinator(){
         init();
     }
 
+    /**
+     * Returns the sequencer this object is using
+     * @return the sequencer this object is using
+     */
     public Sequencer getSequencer() {
         if(sequencer == null){
             init();
         }
         return sequencer;
     }
+
+    /**
+     * Returns the synthesizer this object is using
+     * @return the synthesizer this object is using
+     */
     public MidiDevice getSynth() {
         if(synth == null){
             init();
         }
         return synth;
     }
+
+    /**
+     * Returns the subject used for broadcasting {@code Tuple2<MidiMessage, Long>} messages intercepted from the
+     * sequencer
+     *
+     * @return the subject used for broadcasting {@code Tuple2<MidiMessage, Long>} messages intercepted from the
+     * sequencer
+     */
     public ISubject<Tuple2<MidiMessage, Long>> getMidiMessageBroadcaster() {
         if(interceptor == null){
             init();
@@ -42,11 +67,14 @@ class InterceptingMidiDeviceCoordinator {
         return interceptor.getMidiMessageBroadcaster();
     }
 
+    /**
+     * Initiates the sequencer-interceptor-synthesizer system
+     */
     private static void init(){
         sequencer = getMidiSystemSequencer();
         clearSequencer(sequencer);
 
-        synth = getMidiSystemSynth();
+        synth = getMidiSystemSynth(DEFAULT_SYNTH_NAME);
 
         Receiver synthReceiver = getReceiverOfSynth(synth);
 
@@ -62,6 +90,13 @@ class InterceptingMidiDeviceCoordinator {
         openSequencer(sequencer);
     }
 
+    /**
+     * Returns the default sequencer as given by {@code MidiSystem}.
+     *
+     * @return the default sequencer as given by {@code MidiSystem}.
+     *
+     * @throws RuntimeException if the default synthesizer is unavailable.
+     */
     private static Sequencer getMidiSystemSequencer(){
         try {
             return MidiSystem.getSequencer();
@@ -69,6 +104,12 @@ class InterceptingMidiDeviceCoordinator {
             throw new RuntimeException("Unable to get sequencer", mue);
         }
     }
+
+    /**
+     * Closes all receivers and transmitters attached to the given {@code Sequencer}.
+     *
+     * @param sequencer the {@code Sequencer} to clear
+     */
     private static void clearSequencer(Sequencer sequencer){
         for(Receiver r : sequencer.getReceivers()){
             r.close();
@@ -77,39 +118,40 @@ class InterceptingMidiDeviceCoordinator {
             t.close();
         }
     }
-    private static MidiDevice getMidiSystemSynth(){
-        try {
-            for (MidiDevice.Info info : MidiSystem.getMidiDeviceInfo()) {
-                String name = info.getName();
-                if (name.equals(DEFAULT_SYNTH_NAME)) {
-                    return MidiSystem.getMidiDevice(info);
-                }
-            }
-        }catch(MidiUnavailableException mue){
-            throw new RuntimeException("Unable to open MIDI device \"" +  DEFAULT_SYNTH_NAME + '"', mue);
-        }
-        throw new RuntimeException("Unable to retrieve default synthesizer \"" + DEFAULT_SYNTH_NAME + '"');
-    }
+
+    /**
+     * Returns the synthesizer associated with the given synthesizer name as given by {@code MidiSystem}.
+     *
+     * @param synthName the name of the synthesizer to retrieve
+     *
+     * @return the synthesizer associated with the given synthesizer name as given by {@code MidiSystem}.
+     *
+     * @throws RuntimeException if the specified synthesizer cannot be found or is otherwise unavailable.
+     */
     private static MidiDevice getMidiSystemSynth(String synthName){
-        MidiDevice.Info defaultSynthInfo = null;
         try {
             for (MidiDevice.Info info : MidiSystem.getMidiDeviceInfo()) {
                 String name = info.getName();
                 if (name.equals(synthName)) {
                     return MidiSystem.getMidiDevice(info);
                 }
-                if (name.equals(DEFAULT_SYNTH_NAME)) {
-                    defaultSynthInfo = info;
-                }
             }
-            if (defaultSynthInfo != null) {
-                return MidiSystem.getMidiDevice(defaultSynthInfo);
-            }
-        }catch(MidiUnavailableException mue){
+        }
+        catch(MidiUnavailableException mue){
             throw new RuntimeException("Unable to open MIDI device \"" + synthName + '"', mue);
         }
-        throw new RuntimeException("Unable to retrieve any Synthesizer");
+        throw new RuntimeException("Unable to retrieve any synthesizer");
     }
+
+    /**
+     * Returns the receiver of the given synthesizer
+     *
+     * @param synth the synthesizer to get the receiver of
+     *
+     * @return the receiver of the given synthesizer
+     *
+     * @throws RuntimeException if the receiver is unavailable
+     */
     private static Receiver getReceiverOfSynth(MidiDevice synth){
         try{
             return synth.getReceiver();
@@ -117,6 +159,16 @@ class InterceptingMidiDeviceCoordinator {
             throw new RuntimeException("Unable to get receiver of synth", mue);
         }
     }
+
+    /**
+     * Returns the transmitter of the given sequencer
+     *
+     * @param sequencer the sequencer to get the transmitter of
+     *
+     * @return the transmitter of the given sequencer
+     *
+     * @throws RuntimeException if the transmitter is unavailable
+     */
     private static Transmitter getTransmitterOfSequencer(Sequencer sequencer){
         try{
             return sequencer.getTransmitter();
@@ -124,11 +176,25 @@ class InterceptingMidiDeviceCoordinator {
             throw new RuntimeException("Unable to get transmitter of sequencer", mue);
         }
     }
+
+    /**
+     * Closes all receivers attached to the given {@code Transmitter}.
+     *
+     * @param transmitter the {@code Transmitter} to clear
+     */
     private static void clearTransmitter(Transmitter transmitter){
         if(transmitter.getReceiver() != null) {
             transmitter.getReceiver().close();
         }
     }
+
+    /**
+     * Calls open() on the given synthesizer.
+     *
+     * @param synth the synthesizer to open
+     *
+     * @throws RuntimeException if the call to open() fails
+     */
     private static void openSynth(MidiDevice synth){
         try{
             synth.open();
@@ -136,6 +202,14 @@ class InterceptingMidiDeviceCoordinator {
             throw new RuntimeException("Unable to open synth", mue);
         }
     }
+
+    /**
+     * Calls open() on the given sequencer.
+     *
+     * @param sequencer the sequencer to open
+     *
+     * @throws RuntimeException if the call to open() fails.
+     */
     private static void openSequencer(Sequencer sequencer){
         try{
             sequencer.open();
@@ -144,6 +218,9 @@ class InterceptingMidiDeviceCoordinator {
         }
     }
 
+    /**
+     * Stops the sequencer and closes the sequencer-interceptor-sequencer system.
+     */
     public void cleanUp(){
         sequencer.stop();
         synth.close();

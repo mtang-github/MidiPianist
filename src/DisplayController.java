@@ -10,29 +10,32 @@ import java.awt.image.BufferedImage;
 
 public class DisplayController {
 
+    private final AbstractResourceManager<BufferedImage> imageManager;
+
     private final IObserver<Void> updateReceiver;
     private final Subject<BufferedImage> imageBroadcaster;
     private final IObserver<Tuple2<MidiMessage, Long>> midiMessageReceiver;
 
     private final BufferedImage toDraw;
-    private final NoteData noteData;
-    private final PianoDisplay pianoDisplay;
+    private final TotalNoteData totalNoteData;
+    private final TotalDisplay totalDisplay;
 
     public DisplayController(int width, int height, AbstractResourceManager<BufferedImage> imageManager){
+        this.imageManager = imageManager;
         toDraw = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-        noteData = new NoteData();
-        pianoDisplay = new PianoDisplay(imageManager);
+        totalNoteData = new TotalNoteData();
+        totalDisplay = new TotalDisplay();
         updateReceiver = makeUpdateReceiver();
         imageBroadcaster = new Subject<>();
-        midiMessageReceiver = new NoteDataUpdater(noteData);
+        midiMessageReceiver = new NoteDataUpdater(totalNoteData);
     }
 
     private IObserver<Void> makeUpdateReceiver(){
         return (Void) -> {
-            pianoDisplay.readAndUpdateNoteData(noteData);
+            totalDisplay.readAndUpdateNoteData(totalNoteData);
 
             Graphics2D g2d = toDraw.createGraphics();
-            pianoDisplay.drawOn(g2d);
+            totalDisplay.drawOn(g2d, imageManager);
             g2d.dispose();
 
             imageBroadcaster.broadcast(toDraw);

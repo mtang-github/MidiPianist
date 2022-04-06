@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class BufferedImagePanel extends JPanel implements AbstractGraphicalDisplay {
+public class BufferedImagePanel extends JPanel implements IGraphicalDisplay {
     private final IObserver<BufferedImage> imageReceiver;
     private BufferedImage image;
 

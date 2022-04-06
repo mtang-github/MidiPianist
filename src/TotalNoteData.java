@@ -1,14 +1,14 @@
 /**
- * A {@code NoteData} represents the graphical state of all notes (0-128) on all channels (1-16)
+ * A {@code TotalNoteData} represents the graphical state of all notes (0-128) on all channels (1-16)
  */
-public class NoteData {
+public class TotalNoteData {
 
     private final ChannelNoteData[] channelNoteData;
 
     /**
-     * Constructs a new {@code NoteData} with all notes off.
+     * Constructs a new {@code TotalNoteData} with all notes off.
      */
-    public NoteData(){
+    public TotalNoteData(){
         channelNoteData = new ChannelNoteData[16];
         for(int i = 0; i < 16; ++i){
             channelNoteData[i] = new ChannelNoteData();

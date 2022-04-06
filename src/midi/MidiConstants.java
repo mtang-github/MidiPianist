@@ -8,6 +8,9 @@ public class MidiConstants{
 
     private MidiConstants(){}
 
+    public static final int NUM_NOTES = 128;
+    public static final int NUM_CHANNELS = 16;
+
     //midi events; last 4 bits are channel #
     public static final int NOTE_OFF =						    0b10000000;
     public static final int NOTE_ON =						    0b10010000;

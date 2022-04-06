@@ -9,7 +9,7 @@ import javax.swing.*;
 import java.awt.image.BufferedImage;
 
 public class WindowController {
-    private final AbstractGraphicalDisplay graphicalDisplay;
+    private final IGraphicalDisplay graphicalDisplay;
     private final AbstractFrame frame;
 
     public WindowController(
