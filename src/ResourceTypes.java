@@ -1,7 +1,6 @@
 import resource.AbstractResourceOrigin;
-import resource.AbstractResourceType;
+import resource.IResourceType;
 import resource.FileOrigin;
-import resource.ManifestOrigin;
 import resource.ParentResource;
 import resource.Resource;
 import resource.ResourceLoader;
@@ -20,20 +19,14 @@ import java.util.List;
 public final class ResourceTypes {
     private ResourceTypes() {}
 
-    private static final List<AbstractResourceType<?>> resourceTypesList = new ArrayList<>();
+    private static final List<IResourceType<?>> resourceTypesList = new ArrayList<>();
 
     public static final ResourceTypeTemplate<List<Resource<?>>> DIRECTORY = new ResourceTypeTemplate<>(
-            new String[]{FileUtil.DIRECTORY_EXTENSION},
-            new String[]{"directory"}
+            new String[]{FileUtil.DIRECTORY_EXTENSION}
     ) {
         @Override
         public List<Resource<?>> makeDataFromFile(FileOrigin origin, ResourceLoader loader) {
             return makeData(origin.getFile(), loader);
-        }
-
-        @Override
-        protected List<Resource<?>> makeDataFromManifest(ManifestOrigin origin, ResourceLoader loader) {
-            return makeData(new File(origin.getMetadata()[2]), loader);
         }
 
         private List<Resource<?>> makeData(File file, ResourceLoader loader) {
@@ -62,17 +55,11 @@ public final class ResourceTypes {
     };
 
     public static final ResourceTypeTemplate<BufferedImage> IMAGE = new ResourceTypeTemplate<>(
-            new String[]{"png"},
-            new String[]{"image"}
+            new String[]{"png"}
     ) {
         @Override
         public BufferedImage makeDataFromFile(FileOrigin origin) {
             return makeData(origin.getFile());
-        }
-
-        @Override
-        protected BufferedImage makeDataFromManifest(ManifestOrigin origin) {
-            return makeData(new File(origin.getMetadata()[2]));
         }
 
         private BufferedImage makeData(File file){
@@ -80,28 +67,21 @@ public final class ResourceTypes {
         }
     };
 
-    public static AbstractResourceType<?>[] values() {
-        return resourceTypesList.toArray(new AbstractResourceType<?>[0]);
+    public static IResourceType<?>[] values() {
+        return resourceTypesList.toArray(new IResourceType<?>[0]);
     }
 
-    private static class ResourceTypeTemplate<T> extends resource.AbstractResourceType<T> {
+    private static abstract class ResourceTypeTemplate<T> implements IResourceType<T> {
         private final String[] acceptableFileTypes;
-        private final String[] acceptableManifestPrefixes;
 
-        public ResourceTypeTemplate(String[] acceptableFileTypes, String[] acceptableManifestPrefixes) {
+        public ResourceTypeTemplate(String[] acceptableFileTypes) {
             this.acceptableFileTypes = acceptableFileTypes;
-            this.acceptableManifestPrefixes = acceptableManifestPrefixes;
             resourceTypesList.add(this);
         }
 
         @Override
         public String[] getAcceptableFileTypes() {
             return acceptableFileTypes;
-        }
-
-        @Override
-        public String[] getAcceptableManifestPrefixes() {
-            return acceptableManifestPrefixes;
         }
     }
 }

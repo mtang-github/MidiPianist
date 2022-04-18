@@ -3,40 +3,43 @@ package resource;
 import java.util.HashMap;
 import java.util.Map;
 
-class HashMapResourceManager<T> implements AbstractResourceManager<T>{
+/**
+ * A {@code HashMapResourceManager} implements {@link IResourceManager} by using a backing {@link HashMap}.
+ *
+ * @param <T> the type of the data stored by the resources.
+ */
+class HashMapResourceManager<T> implements IResourceManager<T> {
     private final Map<String, Resource<T>> resourceMap;
+
+    /**
+     * Constructs an empty {@code HashMapResourceManager}.
+     */
     public HashMapResourceManager(){
         resourceMap = new HashMap<>();
     }
 
+    /**
+     * {@inheritDoc}
+     * @param id the string id for which it is required to find the associated resource.
+     * @return the resource associated with the given string id.
+     */
     @Override
     public Resource<T> getResource(String id) {
         return resourceMap.get(id);
     }
 
+    /**
+     * {@inheritDoc}
+     * @param resource the resource to add to this manager.
+     */
     @Override
     public void loadResource(Resource<T> resource) {
         resourceMap.put(resource.getId(), resource);
     }
 
-    @Override
-    public void reloadResource(String id) {
-        if(!resourceMap.containsKey(id)){
-            return;
-        }
-        resourceMap.get(id).reloadData();
-    }
-
-    @Override
-    public void unloadResource(String id) {
-        resourceMap.get(id).unloadData();
-    }
-
-    @Override
-    public void removeResource(String id) {
-        resourceMap.remove(id);
-    }
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void cleanUp() {
         for(Resource<T> resource : resourceMap.values()){

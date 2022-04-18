@@ -2,17 +2,17 @@ package resource;
 
 import java.io.File;
 
-public class ResourceController {
+public class ResourceSystem {
     private final ResourceManagerMap resourceManagerMap;
     private final ResourceLoader resourceLoader;
 
-    private ResourceController(AbstractResourceType<?>[] resourceTypeArray){
+    private ResourceSystem(IResourceType<?>[] resourceTypeArray){
         resourceManagerMap = new ResourceManagerMap(resourceTypeArray);
         resourceLoader = new ResourceLoader(resourceTypeArray, resourceManagerMap);
     }
 
-    public static ResourceController makeResourceController(AbstractResourceType<?>[] resourceTypeArray){
-        return new ResourceController(resourceTypeArray);
+    public static ResourceSystem makeResourceController(IResourceType<?>[] resourceTypeArray){
+        return new ResourceSystem(resourceTypeArray);
     }
 
     public void loadFile(String fileName){
@@ -23,7 +23,7 @@ public class ResourceController {
         resourceLoader.parseFile(file);
     }
 
-    public <T> AbstractResourceManager<T> getResourceManager(AbstractResourceType<T> type){
+    public <T> IResourceManager<T> getResourceManager(IResourceType<T> type){
         return resourceManagerMap.get(type);
     }
 
@@ -31,7 +31,3 @@ public class ResourceController {
         resourceManagerMap.cleanUp();
     }
 }
-
-//Resource Types are defined outside the package and passed in
-//Resource Origins will require a new class each, as well as changes to Resource Types
-//may want to create a new thread for non-essential resource operations to take place on

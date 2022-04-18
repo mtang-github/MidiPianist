@@ -1,4 +1,4 @@
-import resource.AbstractResourceManager;
+import resource.IResourceManager;
 import util.DoublePoint;
 
 import java.awt.*;
@@ -59,7 +59,7 @@ public class TotalDisplay {
      * @param g2d the {@code Graphics2D} to draw with.
      * @param imageManager the image manager which holds the required {@code BufferedImage} sprites.
      */
-    public void drawOn(Graphics2D g2d, AbstractResourceManager<BufferedImage> imageManager){
+    public void drawOn(Graphics2D g2d, IResourceManager<BufferedImage> imageManager){
         for(int channel = 0; channel < NUM_CHANNELS; ++channel){
             channelDisplays[channel].drawOn(g2d, imageManager);
         }

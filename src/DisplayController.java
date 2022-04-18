@@ -1,4 +1,4 @@
-import resource.AbstractResourceManager;
+import resource.IResourceManager;
 import util.Tuple2;
 import util.observer.IObserver;
 import util.observer.ISubject;
@@ -8,9 +8,10 @@ import javax.sound.midi.MidiMessage;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+//todo: put in display package?
 public class DisplayController {
 
-    private final AbstractResourceManager<BufferedImage> imageManager;
+    private final IResourceManager<BufferedImage> imageManager;
 
     private final IObserver<Void> updateReceiver;
     private final Subject<BufferedImage> imageBroadcaster;
@@ -20,7 +21,7 @@ public class DisplayController {
     private final TotalNoteData totalNoteData;
     private final TotalDisplay totalDisplay;
 
-    public DisplayController(int width, int height, AbstractResourceManager<BufferedImage> imageManager){
+    public DisplayController(int width, int height, IResourceManager<BufferedImage> imageManager){
         this.imageManager = imageManager;
         toDraw = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         totalNoteData = new TotalNoteData();

@@ -1,4 +1,4 @@
-import resource.AbstractResourceManager;
+import resource.IResourceManager;
 import util.DoublePoint;
 
 import java.awt.*;
@@ -163,7 +163,7 @@ public class ChannelDisplay {
      * @param g2d the {@code Graphics2D} to draw with.
      * @param imageManager the image manager which holds the required {@code BufferedImage} sprites.
      */
-    public void drawOn(Graphics2D g2d, AbstractResourceManager<BufferedImage> imageManager){
+    public void drawOn(Graphics2D g2d, IResourceManager<BufferedImage> imageManager){
         //draw all the white notes
         for(int pitchClass = 0; pitchClass < NUM_PITCH_CLASSES; ++pitchClass){
             if(isWhiteNote(pitchClass)) {

@@ -1,5 +1,5 @@
 import mainloop.ThreadedFixedTimeLoop;
-import resource.ResourceController;
+import resource.ResourceSystem;
 import midi.MidiController;
 import util.file.FileUtil;
 import util.observer.IObserver;
@@ -24,7 +24,7 @@ final class Main {
 
     private static Thread setupThread;
 
-    private static ResourceController resourceController;
+    private static ResourceSystem resourceSystem;
     private static WindowController windowController;
     private static MidiController midiController;
     private static DisplayController displayController;
@@ -92,11 +92,11 @@ final class Main {
     }
 
     /**
-     * Creates the {@link ResourceController} and loads all the files in the resource folder.
+     * Creates the {@link ResourceSystem} and loads all the files in the resource folder.
      */
     private static void makeResourceController() {
-        resourceController = ResourceController.makeResourceController(ResourceTypes.values());
-        resourceController.loadFile(RESOURCE_FOLDER);
+        resourceSystem = ResourceSystem.makeResourceController(ResourceTypes.values());
+        resourceSystem.loadFile(RESOURCE_FOLDER);
     }
 
     /**
@@ -118,7 +118,7 @@ final class Main {
      * Creates the {@link DisplayController} and attaches it to the window and music controllers.
      */
     private static void makeDisplayController(){
-        displayController = new DisplayController(WIDTH, HEIGHT, resourceController.getResourceManager(ResourceTypes.IMAGE));
+        displayController = new DisplayController(WIDTH, HEIGHT, resourceSystem.getResourceManager(ResourceTypes.IMAGE));
         displayController.getImageBroadcaster().attach(windowController.getImageReceiver());
         midiController.getMidiMessageBroadcaster().attach(displayController.getMidiMessageReceiver());
     }
@@ -152,9 +152,9 @@ final class Main {
             midiController.cleanUp();
             midiController = null;
         }
-        if (resourceController != null) {
-            resourceController.cleanUp();
-            resourceController = null;
+        if (resourceSystem != null) {
+            resourceSystem.cleanUp();
+            resourceSystem = null;
         }
         System.exit(0);
     }
