@@ -8,7 +8,7 @@ import window.WindowController;
 import java.io.File;
 
 /**
- * The MidiPianist program creates a GUI representing the 16 channels of a MIDI file and
+ * The MidiPianist program creates a GUI representing the 16 MIDI channels and
  * plays MIDI files, updating the graphical representation of the channels in real time
  * depending on what notes are played.
  */

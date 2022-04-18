@@ -3,9 +3,9 @@ package util.file;
 import java.io.File;
 
 @SuppressWarnings("unused")
-public class ConfigurableDirectoryParser implements AbstractDirectoryParser{
-    private AbstractSingleFileParser singleFileParser;
-    public ConfigurableDirectoryParser(AbstractSingleFileParser singleFileParser){
+public class ConfigurableDirectoryParser implements IDirectoryParser {
+    private IFileParser singleFileParser;
+    public ConfigurableDirectoryParser(IFileParser singleFileParser){
         this.singleFileParser = singleFileParser;
     }
 
@@ -22,7 +22,7 @@ public class ConfigurableDirectoryParser implements AbstractDirectoryParser{
         }
     }
 
-    public void setFileParser(AbstractSingleFileParser parser) {
+    public void setFileParser(IFileParser parser) {
         this.singleFileParser = parser;
     }
 }
