@@ -23,7 +23,7 @@ public abstract class BroadcastOnCloseFrame extends JFrame {
 
     /**
      * Constructs a new window close subject and attaches it to this frame.
-     * @return the new window close subject
+     * @return the new window close subject.
      */
     private Subject<Void> makeWindowCloseBroadcaster(){
         Subject<Void> windowCloseBroadcaster = new Subject<>();
@@ -37,8 +37,8 @@ public abstract class BroadcastOnCloseFrame extends JFrame {
     }
 
     /**
-     * Returns the window close subject attached to this frame
-     * @return the window close subject attached to this frame
+     * Returns the window close subject attached to this frame.
+     * @return the window close subject attached to this frame.
      */
     public ISubject<Void> getWindowCloseBroadcaster(){
         return windowCloseBroadcaster;

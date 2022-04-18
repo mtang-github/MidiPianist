@@ -17,8 +17,8 @@ public class BufferedImagePanel extends JPanel implements IGraphicalDisplay {
     /**
      * Constructs a {@code BufferedImagePanel} with the given dimensions.
      *
-     * @param width width of the created {@code BufferedImagePanel}
-     * @param height height of the created {@code BufferedImagePanel}
+     * @param width width of the created {@code BufferedImagePanel}.
+     * @param height height of the created {@code BufferedImagePanel}.
      */
     public BufferedImagePanel(int width, int height){
         setBackground(Color.BLACK);
@@ -30,7 +30,7 @@ public class BufferedImagePanel extends JPanel implements IGraphicalDisplay {
      * Creates the image receiver, which is a {@code BufferedImage} observer which causes the panel to repaint
      * itself with any new image received.
      *
-     * @return the image receiver
+     * @return the image receiver.
      */
     private IObserver<BufferedImage> makeImageReceiver() {
         return data -> {
@@ -42,7 +42,7 @@ public class BufferedImagePanel extends JPanel implements IGraphicalDisplay {
     /**
      * Sets the stored image. Does not cause a repaint attempt.
      *
-     * @param image the new image to store
+     * @param image the new image to store.
      */
     private void setImage(BufferedImage image){
         this.image = image;
@@ -52,7 +52,7 @@ public class BufferedImagePanel extends JPanel implements IGraphicalDisplay {
      * Returns the image receiver, which is a {@code BufferedImage} observer which causes the panel to repaint
      * itself with any new image received.
      *
-     * @return the image receiver
+     * @return the image receiver.
      */
     @Override
     public IObserver<BufferedImage> getImageReceiver() {
@@ -62,7 +62,7 @@ public class BufferedImagePanel extends JPanel implements IGraphicalDisplay {
     /**
      * {@inheritDoc}
      *
-     * @param g the Graphics object to protect
+     * @param g the Graphics object to protect.
      * @see #paint
      * @see javax.swing.plaf.ComponentUI
      */

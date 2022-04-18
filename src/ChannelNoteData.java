@@ -17,7 +17,7 @@ public class ChannelNoteData {
 
     /**
      * Returns true if the specified note has been pressed since the last update, false otherwise.
-     * @param note the note to check
+     * @param note the note to check.
      * @return true if the specified note has been pressed since the last update, false otherwise.
      */
     public boolean getNote(int note){
@@ -26,7 +26,7 @@ public class ChannelNoteData {
 
     /**
      * Presses down the specified note.
-     * @param note the specified note
+     * @param note the specified note.
      */
     public void pressNote(int note){
         noteStates[note] = NoteState.PRESSED;
@@ -35,7 +35,7 @@ public class ChannelNoteData {
     /**
      * Releases the specified note. Notes pressed and then released within a single update
      * will still be counted as pressed for the next update.
-     * @param note the specified note
+     * @param note the specified note.
      */
     public void releaseNote(int note){
         if(noteStates[note] != NoteState.RELEASED){

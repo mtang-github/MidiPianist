@@ -26,7 +26,7 @@ public class TotalDisplay {
     /**
      * Creates a {@code ChannelDisplay} array representing the display information of all channels.
      *
-     * @param pos the position of the top-left corner to be fed into the individual {@code ChannelDisplay} objects
+     * @param pos the position of the top-left corner to be fed into the individual {@code ChannelDisplay} objects.
      *
      * @return a {@code ChannelDisplay} array representing the display information of all channels.
      */
@@ -44,7 +44,7 @@ public class TotalDisplay {
      * Updates the graphical representation of all channels according to the specified {@code TotalNoteData}. Updates
      * the specified {@code TotalNoteData} afterwards.
      *
-     * @param totalNoteData the {@code TotalNoteData} to read from and to update
+     * @param totalNoteData the {@code TotalNoteData} to read from and to update.
      */
     public void readAndUpdateNoteData(TotalNoteData totalNoteData){
         for(int channel = 0; channel < NUM_CHANNELS; ++channel){
@@ -56,8 +56,8 @@ public class TotalDisplay {
     /**
      * Draws a graphical representation of all channels with the given {@code Graphics2D} and image manager.
      *
-     * @param g2d the {@code Graphics2D} to draw with
-     * @param imageManager the image manager which holds the required {@code BufferedImage} sprites
+     * @param g2d the {@code Graphics2D} to draw with.
+     * @param imageManager the image manager which holds the required {@code BufferedImage} sprites.
      */
     public void drawOn(Graphics2D g2d, AbstractResourceManager<BufferedImage> imageManager){
         for(int channel = 0; channel < NUM_CHANNELS; ++channel){

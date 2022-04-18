@@ -13,16 +13,30 @@ import java.io.UncheckedIOException;
 import java.util.Properties;
 import java.util.Scanner;
 
+/**
+ * The class {@code FileUtil} provides several utility functions for dealing with files.
+ */
 public final class FileUtil {
     public static final String DIRECTORY_EXTENSION = "directory";
 
-    private FileUtil() {
-    }
+    private FileUtil() {}
 
+    /**
+     * Returns the absolute path of the given file.
+     *
+     * @param file the file for which it is required to find the absolute path.
+     * @return the absolute path of the given file.
+     */
     public static String getFilePath(File file) {
         return file.getAbsolutePath();
     }
 
+    /**
+     * Returns the name of the given file without its file extension.
+     *
+     * @param file the file for which it is required to find the name without the extension.
+     * @return the name of the given file without its file extension.
+     */
     public static String getFileName(File file) {
         String filePath = getFilePath(file);
         int lastIndexOfPeriod = filePath.lastIndexOf('.');
@@ -45,6 +59,12 @@ public final class FileUtil {
         }
     }
 
+    /**
+     * Returns the extension of the given file.
+     *
+     * @param file the file for which it is required to find the extension.
+     * @return the extension of the given file.
+     */
     public static String getFileExtension(File file) {
         if (!file.isDirectory()) {
             String filePath = getFilePath(file);
@@ -58,6 +78,14 @@ public final class FileUtil {
         }
     }
 
+    /**
+     * Returns a new {@code InputStream} from the given file.
+     *
+     * @param file the file to create an input stream of.
+     * @return a new {@code InputStream} from the given file.
+     *
+     * @throws RuntimeException if the file cannot be found.
+     */
     public static InputStream makeInputStream(File file) {
         try {
             return new FileInputStream(file);
@@ -67,6 +95,14 @@ public final class FileUtil {
         }
     }
 
+    /**
+     * Returns a new {@code OutputStream} from the given file.
+     *
+     * @param file the file to create an output stream of.
+     * @return a new {@code OutputStream} from the given file.
+     *
+     * @throws RuntimeException if the file cannot be found.
+     */
     public static OutputStream makeOutputStream(File file){
         try{
             return new FileOutputStream(file);
@@ -76,6 +112,14 @@ public final class FileUtil {
         }
     }
 
+    /**
+     * Returns a new {@code Scanner} from the given file.
+     *
+     * @param file the file to create a scanner from.
+     * @return a new {@code Scanner} from the given file.
+     *
+     * @throws RuntimeException if the file cannot be found.
+     */
     public static Scanner makeScanner(File file){
         try{
             return new Scanner(file);
@@ -85,6 +129,15 @@ public final class FileUtil {
         }
     }
 
+    /**
+     * Parses a given file as an image and returns a {@code BufferedImage}.
+     *
+     * @param imageFile the image file to read.
+     *
+     * @return a {@code BufferedImage} as read by {@link ImageIO}.
+     *
+     * @throws UncheckedIOException if the image file cannot be read.
+     */
     public static BufferedImage parseImage(File imageFile) {
         try {
             return ImageIO.read(imageFile);
@@ -94,6 +147,15 @@ public final class FileUtil {
         }
     }
 
+    /**
+     * Parses a given file as a properties file and returns a {@code Properties}.
+     *
+     * @param propertiesFile the properties file to read.
+     *
+     * @return a {@code Properties} object created from the properties file.
+     *
+     * @throws UncheckedIOException if the properties file cannot be read.
+     */
     public static Properties parseProperties(File propertiesFile) {
         try {
             Properties toRet = new Properties();
@@ -107,6 +169,14 @@ public final class FileUtil {
         }
     }
 
+    /**
+     * Writes a {@code Properties} object to the specified file.
+     *
+     * @param properties the {@code Properties} object to write.
+     * @param propertiesFile the properties file to write to.
+     *
+     * @throws UncheckedIOException if the properties file cannot be written to.
+     */
     public static void writeProperties(Properties properties, File propertiesFile){
         try{
             OutputStream outputStream = makeOutputStream(propertiesFile);

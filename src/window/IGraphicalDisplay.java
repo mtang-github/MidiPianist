@@ -10,8 +10,8 @@ import java.awt.image.BufferedImage;
 public interface IGraphicalDisplay {
 
     /**
-     * Returns the observer used for receiving {@code BufferedImage} messages
-     * @return the observer used for receiving {@code BufferedImage} messages
+     * Returns the observer used for receiving {@code BufferedImage} messages.
+     * @return the observer used for receiving {@code BufferedImage} messages.
      */
     IObserver<BufferedImage> getImageReceiver();
 }

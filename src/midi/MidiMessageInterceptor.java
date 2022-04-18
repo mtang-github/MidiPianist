@@ -35,9 +35,9 @@ class MidiMessageInterceptor implements Transmitter, Receiver {
      * Sends a MIDI message and time-stamp to this receiver. If time-stamping is
      * not supported by this receiver, the time-stamp value should be -1.
      *
-     * @param message   the MIDI message to send
-     * @param timeStamp the time-stamp for the message, in microseconds
-     * @throws IllegalStateException if the receiver is closed
+     * @param message   the MIDI message to send.
+     * @param timeStamp the time-stamp for the message, in microseconds.
+     * @throws IllegalStateException if the receiver is closed.
      */
     @Override
     public void send(MidiMessage message, long timeStamp){
@@ -54,7 +54,7 @@ class MidiMessageInterceptor implements Transmitter, Receiver {
      * Sets the receiver to which this transmitter will deliver MIDI messages.
      * If a receiver is currently set, it is replaced with this one.
      *
-     * @param receiver the desired receiver
+     * @param receiver the desired receiver.
      */
     @Override
     public void setReceiver(Receiver receiver){

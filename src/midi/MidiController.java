@@ -20,7 +20,7 @@ public class MidiController {
     private final IObserver<Void> sequencerResetReceiver;
 
     /**
-     * Constructs a {@code MidiController} and initiates the underlying MIDI system
+     * Constructs a {@code MidiController} and initiates the underlying MIDI system.
      */
     public MidiController(){
         this.midiDeviceCoordinator = new InterceptingMidiDeviceCoordinator();
@@ -31,7 +31,7 @@ public class MidiController {
     /**
      * Begins playback of the specified MIDI sequence.
      *
-     * @param sequence the MIDI sequence to play
+     * @param sequence the MIDI sequence to play.
      */
     private void startTrack(InputStream sequence){
         Sequencer sequencer = midiDeviceCoordinator.getSequencer();
@@ -47,9 +47,9 @@ public class MidiController {
     }
 
     /**
-     * Stops playback on the specified sequencer
+     * Stops playback on the specified sequencer.
      *
-     * @param sequencer the sequencer to stop
+     * @param sequencer the sequencer to stop.
      */
     private void resetSequencer(Sequencer sequencer){
         sequencer.stop();

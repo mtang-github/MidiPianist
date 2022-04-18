@@ -1,5 +1,5 @@
 /**
- * A {@code TotalNoteData} represents the graphical state of all notes (0-128) on all channels (1-16)
+ * A {@code TotalNoteData} represents the graphical state of all notes (0-128) on all channels (1-16).
  */
 public class TotalNoteData {
 
@@ -19,8 +19,8 @@ public class TotalNoteData {
      * Returns true if the specified note on the specified channel has been pressed since the last update,
      * false otherwise.
      *
-     * @param channel the channel on which to check the note
-     * @param note the note to check
+     * @param channel the channel on which to check the note.
+     * @param note the note to check.
      *
      * @return true if the specified note on the specified channel has been pressed since the last update,
      * false otherwise.
@@ -32,8 +32,8 @@ public class TotalNoteData {
     /**
      * Presses down the specified note on the specified channel.
      *
-     * @param channel the channel on which to press the note
-     * @param note the specified note
+     * @param channel the channel on which to press the note.
+     * @param note the specified note.
      */
     public void pressNote(int channel, int note){
         channelNoteData[channel].pressNote(note);
@@ -43,8 +43,8 @@ public class TotalNoteData {
      * Releases the specified note on the specified channel. Notes pressed and then released within a single update
      * will still be counted as pressed for the next update.
      *
-     * @param channel the channel on which to release the note
-     * @param note the specified note
+     * @param channel the channel on which to release the note.
+     * @param note the specified note.
      */
     public void releaseNote(int channel, int note){
         channelNoteData[channel].releaseNote(note);

@@ -32,8 +32,8 @@ class InterceptingMidiDeviceCoordinator {
     }
 
     /**
-     * Returns the sequencer this object is using
-     * @return the sequencer this object is using
+     * Returns the sequencer this object is using.
+     * @return the sequencer this object is using.
      */
     public Sequencer getSequencer() {
         if(sequencer == null){
@@ -43,8 +43,8 @@ class InterceptingMidiDeviceCoordinator {
     }
 
     /**
-     * Returns the synthesizer this object is using
-     * @return the synthesizer this object is using
+     * Returns the synthesizer this object is using.
+     * @return the synthesizer this object is using.
      */
     public MidiDevice getSynth() {
         if(synth == null){
@@ -55,10 +55,10 @@ class InterceptingMidiDeviceCoordinator {
 
     /**
      * Returns the subject used for broadcasting {@code Tuple2<MidiMessage, Long>} messages intercepted from the
-     * sequencer
+     * sequencer.
      *
      * @return the subject used for broadcasting {@code Tuple2<MidiMessage, Long>} messages intercepted from the
-     * sequencer
+     * sequencer.
      */
     public ISubject<Tuple2<MidiMessage, Long>> getMidiMessageBroadcaster() {
         if(interceptor == null){
@@ -68,7 +68,7 @@ class InterceptingMidiDeviceCoordinator {
     }
 
     /**
-     * Initiates the sequencer-interceptor-synthesizer system
+     * Initiates the sequencer-interceptor-synthesizer system.
      */
     private static void init(){
         sequencer = getMidiSystemSequencer();
@@ -108,7 +108,7 @@ class InterceptingMidiDeviceCoordinator {
     /**
      * Closes all receivers and transmitters attached to the given {@code Sequencer}.
      *
-     * @param sequencer the {@code Sequencer} to clear
+     * @param sequencer the {@code Sequencer} to clear.
      */
     private static void clearSequencer(Sequencer sequencer){
         for(Receiver r : sequencer.getReceivers()){
@@ -122,7 +122,7 @@ class InterceptingMidiDeviceCoordinator {
     /**
      * Returns the synthesizer associated with the given synthesizer name as given by {@code MidiSystem}.
      *
-     * @param synthName the name of the synthesizer to retrieve
+     * @param synthName the name of the synthesizer to retrieve.
      *
      * @return the synthesizer associated with the given synthesizer name as given by {@code MidiSystem}.
      *
@@ -144,13 +144,13 @@ class InterceptingMidiDeviceCoordinator {
     }
 
     /**
-     * Returns the receiver of the given synthesizer
+     * Returns the receiver of the given synthesizer.
      *
-     * @param synth the synthesizer to get the receiver of
+     * @param synth the synthesizer to get the receiver of.
      *
-     * @return the receiver of the given synthesizer
+     * @return the receiver of the given synthesizer.
      *
-     * @throws RuntimeException if the receiver is unavailable
+     * @throws RuntimeException if the receiver is unavailable.
      */
     private static Receiver getReceiverOfSynth(MidiDevice synth){
         try{
@@ -161,13 +161,13 @@ class InterceptingMidiDeviceCoordinator {
     }
 
     /**
-     * Returns the transmitter of the given sequencer
+     * Returns the transmitter of the given sequencer.
      *
-     * @param sequencer the sequencer to get the transmitter of
+     * @param sequencer the sequencer to get the transmitter of.
      *
-     * @return the transmitter of the given sequencer
+     * @return the transmitter of the given sequencer.
      *
-     * @throws RuntimeException if the transmitter is unavailable
+     * @throws RuntimeException if the transmitter is unavailable.
      */
     private static Transmitter getTransmitterOfSequencer(Sequencer sequencer){
         try{
@@ -180,7 +180,7 @@ class InterceptingMidiDeviceCoordinator {
     /**
      * Closes all receivers attached to the given {@code Transmitter}.
      *
-     * @param transmitter the {@code Transmitter} to clear
+     * @param transmitter the {@code Transmitter} to clear.
      */
     private static void clearTransmitter(Transmitter transmitter){
         if(transmitter.getReceiver() != null) {
@@ -191,9 +191,9 @@ class InterceptingMidiDeviceCoordinator {
     /**
      * Calls open() on the given synthesizer.
      *
-     * @param synth the synthesizer to open
+     * @param synth the synthesizer to open.
      *
-     * @throws RuntimeException if the call to open() fails
+     * @throws RuntimeException if the call to open() fails.
      */
     private static void openSynth(MidiDevice synth){
         try{
@@ -206,7 +206,7 @@ class InterceptingMidiDeviceCoordinator {
     /**
      * Calls open() on the given sequencer.
      *
-     * @param sequencer the sequencer to open
+     * @param sequencer the sequencer to open.
      *
      * @throws RuntimeException if the call to open() fails.
      */

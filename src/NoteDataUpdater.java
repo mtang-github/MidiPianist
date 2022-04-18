@@ -16,7 +16,7 @@ public class NoteDataUpdater implements IObserver<Tuple2<MidiMessage, Long>> {
 
     /**
      * Constructs a {@code NoteDataUpdater} which updates the specified {@link TotalNoteData}.
-     * @param totalNoteData the {@code NoteData} to update
+     * @param totalNoteData the {@code NoteData} to update.
      */
     public NoteDataUpdater(TotalNoteData totalNoteData){
         this.totalNoteData = totalNoteData;
@@ -26,7 +26,7 @@ public class NoteDataUpdater implements IObserver<Tuple2<MidiMessage, Long>> {
      * Receives a MIDI message, and updates the {@link TotalNoteData} passed at construction if the message is
      * a note on, note off, all notes off, or all sound off message.
      *
-     * @param messageTimeStampTuple a tuple containing the midi message and a time-stamp (unused)
+     * @param messageTimeStampTuple a tuple containing the midi message and a time-stamp (unused).
      */
     @Override
     public void update(Tuple2<MidiMessage, Long> messageTimeStampTuple) {
@@ -40,7 +40,7 @@ public class NoteDataUpdater implements IObserver<Tuple2<MidiMessage, Long>> {
      * Handles MIDI short messages, updating the {@link TotalNoteData} passed at construction if the message is
      * a note on, note off, all notes off, or all sound off message.
      *
-     * @param shortMessage the MIDI short message to handle
+     * @param shortMessage the MIDI short message to handle.
      */
     private void handleShortMessage(ShortMessage shortMessage) {
         switch(shortMessage.getCommand()){
@@ -65,7 +65,7 @@ public class NoteDataUpdater implements IObserver<Tuple2<MidiMessage, Long>> {
      * Handles MIDI control change messages, updating the {@link TotalNoteData} passed at construction if the
      * message is an all notes off or an all sound off.
      *
-     * @param controlChangeMessage the MIDI control change message to handle
+     * @param controlChangeMessage the MIDI control change message to handle.
      */
     private void handleControlChange(ShortMessage controlChangeMessage){
         switch(controlChangeMessage.getData1()){

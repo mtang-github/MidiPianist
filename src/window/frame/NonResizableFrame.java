@@ -15,12 +15,12 @@ public class NonResizableFrame extends BroadcastOnCloseFrame {
     private final JComponent content;
 
     /**
-     * Constructs a {@code NonResizableFrame} with the given dimensions, title, and content
+     * Constructs a {@code NonResizableFrame} with the given dimensions, title, and content.
      *
-     * @param width the preferred width of the frame
-     * @param height the preferred height of the frame
-     * @param title the title of the frame to display to the user
-     * @param content the {@code JComponent} content to display within the frame
+     * @param width the preferred width of the frame.
+     * @param height the preferred height of the frame.
+     * @param title the title of the frame to display to the user.
+     * @param content the {@code JComponent} content to display within the frame.
      */
     public NonResizableFrame(int width, int height, String title, JComponent content){
         super();

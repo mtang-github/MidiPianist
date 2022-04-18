@@ -11,7 +11,7 @@ public interface IObserver<T> {
     /**
      * Pushes the given data to this observer.
      *
-     * @param data the data to push to the observer
+     * @param data the data to push to the observer.
      */
     void update(T data);
 }

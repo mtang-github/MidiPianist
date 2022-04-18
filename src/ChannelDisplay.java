@@ -38,8 +38,8 @@ public class ChannelDisplay {
     /**
      * Constructs a {@code ChannelDisplay} for the specified channel at the given position.
      *
-     * @param channel the channel this {@code ChannelDisplay} is to represent
-     * @param pos the position of the top-left corner
+     * @param channel the channel this {@code ChannelDisplay} is to represent.
+     * @param pos the position of the top-left corner.
      */
     public ChannelDisplay(int channel, DoublePoint pos){
         throwIfInvalidChannel(channel);
@@ -50,7 +50,7 @@ public class ChannelDisplay {
     /**
      * Throws an exception if the specified integer is not a valid MIDI channel.
      *
-     * @param channel the integer to check
+     * @param channel the integer to check.
      *
      * @throws RuntimeException if the specified integer is not a valid MIDI channel.
      */
@@ -63,7 +63,7 @@ public class ChannelDisplay {
     /**
      * Creates a {@code NoteDisplay} array representing the display information of all notes.
      *
-     * @param pos the position of the top-left corner to be fed into the individual {@code NoteDisplay} objects
+     * @param pos the position of the top-left corner to be fed into the individual {@code NoteDisplay} objects.
      *
      * @return a {@code NoteDisplay} array representing the display information of all notes.
      */
@@ -93,11 +93,11 @@ public class ChannelDisplay {
     }
 
     /**
-     * Returns true if the specified integer pitch class represents a white note, false otherwise
+     * Returns true if the specified integer pitch class represents a white note, false otherwise.
      *
-     * @param pitchClass the integer pitch class to check
+     * @param pitchClass the integer pitch class to check.
      *
-     * @return true if the specified integer pitch class represents a white note, false otherwise
+     * @return true if the specified integer pitch class represents a white note, false otherwise.
      *
      * @throws RuntimeException if the specified integer is not a valid pitch class.
      */
@@ -127,11 +127,11 @@ public class ChannelDisplay {
     }
 
     /**
-     * Returns true if the specified integer pitch class represents a black note, false otherwise
+     * Returns true if the specified integer pitch class represents a black note, false otherwise.
      *
-     * @param pitchClass the integer pitch class to check
+     * @param pitchClass the integer pitch class to check.
      *
-     * @return true if the specified integer pitch class represents a black note, false otherwise
+     * @return true if the specified integer pitch class represents a black note, false otherwise.
      *
      * @throws RuntimeException if the specified integer is not a valid pitch class.
      */
@@ -141,9 +141,9 @@ public class ChannelDisplay {
 
     /**
      * Updates the graphical representation of the channel represented by this {@code ChannelDisplay} according to the
-     * specified {@code TotalNoteData}
+     * specified {@code TotalNoteData}.
      *
-     * @param totalNoteData the {@code TotalNoteData} to read from
+     * @param totalNoteData the {@code TotalNoteData} to read from.
      */
     public void readNoteData(TotalNoteData totalNoteData){
         for(int note = 0; note < 128; ++note){
@@ -160,8 +160,8 @@ public class ChannelDisplay {
      * Draws a graphical representation of the channel represented by this {@code ChannelDisplay} with the given
      * {@code Graphics2D} and image manager.
      *
-     * @param g2d the {@code Graphics2D} to draw with
-     * @param imageManager the image manager which holds the required {@code BufferedImage} sprites
+     * @param g2d the {@code Graphics2D} to draw with.
+     * @param imageManager the image manager which holds the required {@code BufferedImage} sprites.
      */
     public void drawOn(Graphics2D g2d, AbstractResourceManager<BufferedImage> imageManager){
         //draw all the white notes

@@ -5,7 +5,7 @@ import resource.ManifestOrigin;
 import resource.ParentResource;
 import resource.Resource;
 import resource.ResourceLoader;
-import util.file.ConfigurableDirectoryParser;
+import util.file.DirectoryConsumer;
 import util.file.FileUtil;
 
 import java.awt.image.BufferedImage;
@@ -13,6 +13,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The {@code ResourceTypes} class defines the types of file resources which this program can utilize.
+ */
+//todo docs
 public final class ResourceTypes {
     private ResourceTypes() {}
 
@@ -34,7 +38,7 @@ public final class ResourceTypes {
 
         private List<Resource<?>> makeData(File file, ResourceLoader loader) {
             List<Resource<?>> childList = new ArrayList<>();
-            ConfigurableDirectoryParser configurableDirectoryParser = new ConfigurableDirectoryParser(
+            DirectoryConsumer directoryConsumer = new DirectoryConsumer(
                     file1 -> {
                         Resource<?> child = loader.parseFile(file1);
                         if (child != null) {
@@ -42,7 +46,7 @@ public final class ResourceTypes {
                         }
                     }
             );
-            configurableDirectoryParser.parseDirectory(file);
+            directoryConsumer.accept(file);
             return childList;
         }
 

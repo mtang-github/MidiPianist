@@ -9,16 +9,16 @@ package util.observer;
  */
 public interface ISubject<T> {
     /**
-     * Adds the specified observer to this subject's broadcast list
+     * Adds the specified observer to this subject's broadcast list.
      *
-     * @param observer the observer to attach to this subject
+     * @param observer the observer to attach to this subject.
      */
     void attach(IObserver<T> observer);
 
     /**
-     * Removes the specified observer from this subject's broadcast list
+     * Removes the specified observer from this subject's broadcast list.
      *
-     * @param observer the observer to remove from this subject
+     * @param observer the observer to remove from this subject.
      */
     void detach(IObserver<T> observer);
 }

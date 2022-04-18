@@ -1,7 +1,7 @@
 package util;
 
 /**
- * A {@code DoublePoint} is an immutable point with double x and y coordinates
+ * A {@code DoublePoint} is an immutable point with double x and y coordinates.
  */
 public record DoublePoint(double x, double y) {
 
@@ -22,7 +22,7 @@ public record DoublePoint(double x, double y) {
 
     /**
      * Returns a new point with the given x coordinate.
-     * @param x the new x coordinate
+     * @param x the new x coordinate.
      * @return a new point with the given x coordinate.
      */
     public DoublePoint setX(double x){
@@ -31,7 +31,7 @@ public record DoublePoint(double x, double y) {
 
     /**
      * Returns a new point with the given y coordinate.
-     * @param y the new y coordinate
+     * @param y the new y coordinate.
      * @return a new point with the given y coordinate.
      */
     public DoublePoint setY(double y){

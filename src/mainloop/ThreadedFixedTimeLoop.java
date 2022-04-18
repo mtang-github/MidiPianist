@@ -23,7 +23,7 @@ public class ThreadedFixedTimeLoop {
     /**
      * Constructs a new {@code ThreadedFixedTimeLoop} with the given updates per second.
      *
-     * @param updatesPerSecond - how many times per second this loop will run
+     * @param updatesPerSecond - how many times per second this loop will run.
      */
     public ThreadedFixedTimeLoop(int updatesPerSecond) {
         fixedTimeBroadcaster = new Subject<>();
@@ -34,7 +34,7 @@ public class ThreadedFixedTimeLoop {
     /**
      * Calculates the number of milliseconds between each update for the given updates per second.
      *
-     * @param updatesPerSecond how many times per second a loop will run
+     * @param updatesPerSecond how many times per second a loop will run.
      *
      * @return the number of milliseconds between each update for the given updates per second.
      */
@@ -85,7 +85,7 @@ public class ThreadedFixedTimeLoop {
     }
 
     /**
-     * Ends this loop
+     * Ends this loop.
      */
     public void end(){
         running.set(false);

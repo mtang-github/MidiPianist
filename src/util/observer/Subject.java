@@ -21,7 +21,7 @@ public class Subject<T> implements ISubject<T> {
     /**
      * {@inheritDoc}
      *
-     * @param observer the observer to attach to this subject
+     * @param observer the observer to attach to this subject.
      */
     @Override
     public void attach(IObserver<T> observer){
@@ -31,7 +31,7 @@ public class Subject<T> implements ISubject<T> {
     /**
      * {@inheritDoc}
      *
-     * @param observer the observer to remove from this subject
+     * @param observer the observer to remove from this subject.
      */
     @Override
     public void detach(IObserver<T> observer){

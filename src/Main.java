@@ -35,7 +35,7 @@ final class Main {
 
     /**
      * The entry point of the program.
-     * @param args unused
+     * @param args unused.
      */
     public static void main(String[] args) {
         setupThread = new Thread("Setup") {
@@ -115,7 +115,7 @@ final class Main {
     }
 
     /**
-     * Creates the {@link DisplayController} and attaches it to the window and music controllers
+     * Creates the {@link DisplayController} and attaches it to the window and music controllers.
      */
     private static void makeDisplayController(){
         displayController = new DisplayController(WIDTH, HEIGHT, resourceController.getResourceManager(ResourceTypes.IMAGE));
