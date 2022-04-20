@@ -7,7 +7,7 @@ import java.io.File;
 /**
  * An {@code IResourceType} represents a type of resource which can be loaded from a file.
  *
- * @param <T> the type of the data.
+ * @param <T> the data type.
  */
 public interface IResourceType<T> {
 
@@ -61,5 +61,5 @@ public interface IResourceType<T> {
      *
      * @param data the data object to clean up.
      */
-    void cleanUpData(T data);
+    default void cleanUpData(T data){}
 }

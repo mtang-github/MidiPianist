@@ -1,11 +1,12 @@
+import display.DisplayController;
 import mainloop.ThreadedFixedTimeLoop;
 import resource.ResourceSystem;
 import midi.MidiController;
 import util.file.FileUtil;
-import util.observer.IObserver;
 import window.WindowController;
 
 import java.io.File;
+import java.util.Objects;
 
 /**
  * The MidiPianist program creates a GUI representing the 16 MIDI channels and
@@ -14,6 +15,7 @@ import java.io.File;
  */
 final class Main {
 
+    private static final String DEFAULT_SYNTH_NAME = "Microsoft MIDI Mapper";
     private static final String RESOURCE_FOLDER = "res";
 
     private static final int WIDTH = 750;
@@ -22,6 +24,7 @@ final class Main {
 
     private static final int FRAMES_PER_SECOND = 60;
 
+    private static String synthName;
     private static Thread setupThread;
 
     private static ResourceSystem resourceSystem;
@@ -29,15 +32,20 @@ final class Main {
     private static MidiController midiController;
     private static DisplayController displayController;
 
-    private static IObserver<Void> cleanupReceiver;
-
     private static ThreadedFixedTimeLoop mainLoop;
 
     /**
      * The entry point of the program.
-     * @param args unused.
+     * @param args the first string is the name of the synth to use if provided, otherwise this program will default
+     *             to the Microsoft MIDI Mapper.
      */
     public static void main(String[] args) {
+        if(args.length > 0){
+            synthName = args[0];
+        }
+        else{
+            synthName = DEFAULT_SYNTH_NAME;
+        }
         setupThread = new Thread("Setup") {
             @Override
             public void run() {
@@ -54,8 +62,6 @@ final class Main {
      */
     private static void setup() {
         System.setProperty("sun.java2d.d3d", "true");
-
-        makeCleanupReceiver();
 
         makeResourceController();
         if (Thread.interrupted()) {
@@ -85,33 +91,34 @@ final class Main {
     }
 
     /**
-     * Creates the cleanup receiver which calls {@link #cleanUp} upon receiving a broadcast.
-     */
-    private static void makeCleanupReceiver() {
-        cleanupReceiver = (Void) -> cleanUp();
-    }
-
-    /**
      * Creates the {@link ResourceSystem} and loads all the files in the resource folder.
      */
     private static void makeResourceController() {
-        resourceSystem = ResourceSystem.makeResourceController(ResourceTypes.values());
+        resourceSystem = new ResourceSystem(ResourceTypes.values());
         resourceSystem.loadFile(RESOURCE_FOLDER);
     }
 
     /**
-     * Creates the {@link WindowController} and attaches the cleanup receiver to it.
+     * Creates the {@link WindowController}. Attaches the window clean up broadcaster to {@link #cleanUp()}.
      */
     private static void makeWindowController() {
         windowController = new WindowController(WIDTH, HEIGHT, TITLE);
-        windowController.getWindowCloseBroadcaster().attach(cleanupReceiver);
+        windowController.getWindowCloseBroadcaster().attach(data -> cleanUp());
     }
 
     /**
-     * Creates the {@link MidiController}.
+     * Creates the {@link MidiController}. Attaches the window file drop broadcaster to the track start receiver.
      */
     private static void makeMusicController() {
-        midiController = new MidiController();
+        midiController = new MidiController(synthName);
+        windowController.getFileDropBroadcaster().attach(fileList -> {
+            for(File file : fileList){
+                if(Objects.equals(FileUtil.getFileExtension(file), "mid")){
+                    midiController.getTrackStartReceiver().update(FileUtil.makeInputStream(file));
+                    break;
+                }
+            }
+        });
     }
 
     /**
@@ -130,8 +137,6 @@ final class Main {
         mainLoop = new ThreadedFixedTimeLoop(FRAMES_PER_SECOND);
         mainLoop.getFixedTimeBroadcaster().attach(displayController.getUpdateReceiver());
         mainLoop.begin();
-        //todo test midi
-        midiController.getTrackStartReceiver().update(FileUtil.makeInputStream(new File("res/test.mid")));
     }
 
     /**

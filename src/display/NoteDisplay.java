@@ -1,7 +1,9 @@
+package display;
+
 import util.DoublePoint;
 
 /**
- * A {@code NoteDisplay} represents the graphical representation of a single MIDI note on a single MIDI channel.
+ * A {@code display.NoteDisplay} represents the graphical representation of a single MIDI note on a single MIDI channel.
  */
 public class NoteDisplay {
     private final DoublePoint pos;
@@ -10,7 +12,7 @@ public class NoteDisplay {
     private boolean pressed;
 
     /**
-     * Constructs a {@code NoteDisplay} at the specified position with the given string images for its up and down
+     * Constructs a {@code display.NoteDisplay} at the specified position with the given string images for its up and down
      * sprites.
      *
      * @param pos the position of the top-left corner.
@@ -33,22 +35,22 @@ public class NoteDisplay {
     }
 
     /**
-     * Returns either the up or down string image depending on if this {@code NoteDisplay} has been pressed or not.
-     * @return either the up or down string image depending on if this {@code NoteDisplay} has been pressed or not.
+     * Returns either the up or down string image depending on if this {@code display.NoteDisplay} has been pressed or not.
+     * @return either the up or down string image depending on if this {@code display.NoteDisplay} has been pressed or not.
      */
     public String getSimage() {
         return pressed ? downSimage : upSimage;
     }
 
     /**
-     * Presses down this {@code NoteDisplay}, setting the string image to the down state.
+     * Presses down this {@code display.NoteDisplay}, setting the string image to the down state.
      */
     public void press(){
         pressed = true;
     }
 
     /**
-     * Releases this {@code NoteDisplay}, setting the string image to the up state.
+     * Releases this {@code display.NoteDisplay}, setting the string image to the up state.
      */
     public void release(){
         pressed = false;

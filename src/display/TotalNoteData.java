@@ -1,12 +1,14 @@
+package display;
+
 /**
- * A {@code TotalNoteData} represents the graphical state of all notes (0-128) on all channels (1-16).
+ * A {@code display.TotalNoteData} represents the graphical state of all notes (0-128) on all channels (1-16).
  */
 public class TotalNoteData {
 
     private final ChannelNoteData[] channelNoteData;
 
     /**
-     * Constructs a new {@code TotalNoteData} with all notes off.
+     * Constructs a new {@code display.TotalNoteData} with all notes off.
      */
     public TotalNoteData(){
         channelNoteData = new ChannelNoteData[16];

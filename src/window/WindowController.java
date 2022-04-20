@@ -2,18 +2,18 @@ package window;
 
 import util.observer.IObserver;
 import util.observer.ISubject;
-import window.frame.BroadcastOnCloseFrame;
-import window.frame.NonResizableFrame;
 
 import javax.swing.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.util.List;
 
 /**
- * A {@code WindowController} creates and provides the interface for accessing an application window.
+ * A {@code WindowController} provides the interface for interacting with the application window.
  */
 public class WindowController {
     private final IGraphicalDisplay graphicalDisplay;
-    private final BroadcastOnCloseFrame frame;
+    private final NonResizableFrame frame;
 
     /**
      * Constructs a {@code WindowController} with the given dimensions and title.
@@ -43,10 +43,17 @@ public class WindowController {
 
     /**
      * Returns the window close subject attached to this window.
-     *
      * @return the window close subject attached to this window.
      */
     public ISubject<Void> getWindowCloseBroadcaster(){
         return frame.getWindowCloseBroadcaster();
+    }
+
+    /**
+     * Returns the file drop subject attached to this window.
+     * @return the file drop subject attached to this window.
+     */
+    public ISubject<List<File>> getFileDropBroadcaster(){
+        return frame.getFileDropBroadcaster();
     }
 }

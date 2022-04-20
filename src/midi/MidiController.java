@@ -20,10 +20,10 @@ public class MidiController {
     private final IObserver<Void> sequencerResetReceiver;
 
     /**
-     * Constructs a {@code MidiController} and initiates the underlying MIDI system.
+     * Constructs a {@code MidiController} and initiates the underlying MIDI system given the name of the synth.
      */
-    public MidiController(){
-        this.midiDeviceCoordinator = new InterceptingMidiDeviceCoordinator();
+    public MidiController(String synthName){
+        this.midiDeviceCoordinator = new InterceptingMidiDeviceCoordinator(synthName);
         trackStartReceiver = makeTrackStartReceiver();
         sequencerResetReceiver = makeSequencerResetReceiver();
     }

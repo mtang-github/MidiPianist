@@ -1,3 +1,5 @@
+package display;
+
 import midi.MidiConstants;
 import util.Tuple2;
 import util.observer.IObserver;
@@ -6,7 +8,7 @@ import javax.sound.midi.MidiMessage;
 import javax.sound.midi.ShortMessage;
 
 /**
- * A {@code NoteDataUpdater} receives MIDI messages and correspondingly updates a {@link TotalNoteData} object
+ * A {@code display.NoteDataUpdater} receives MIDI messages and correspondingly updates a {@link TotalNoteData} object
  * passed at construction.
  */
 @SuppressWarnings("ClassCanBeRecord")
@@ -15,7 +17,7 @@ public class NoteDataUpdater implements IObserver<Tuple2<MidiMessage, Long>> {
     private final TotalNoteData totalNoteData;
 
     /**
-     * Constructs a {@code NoteDataUpdater} which updates the specified {@link TotalNoteData}.
+     * Constructs a {@code display.NoteDataUpdater} which updates the specified {@link TotalNoteData}.
      * @param totalNoteData the {@code NoteData} to update.
      */
     public NoteDataUpdater(TotalNoteData totalNoteData){

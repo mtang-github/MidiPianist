@@ -16,8 +16,7 @@ import javax.sound.midi.Transmitter;
  * message broadcaster which rebroadcasts all messages output by the sequencer.
  */
 class InterceptingMidiDeviceCoordinator {
-    //todo: microsoft specific
-    private static final String DEFAULT_SYNTH_NAME = "Microsoft MIDI Mapper";
+    private final String synthName;
 
     private static Sequencer sequencer;
     private static MidiMessageInterceptor interceptor;
@@ -27,8 +26,9 @@ class InterceptingMidiDeviceCoordinator {
      * Constructs an {@code InterceptingMidiDeviceCoordinator}, initiating the sequencer-interceptor-synthesizer
      * system.
      */
-    public InterceptingMidiDeviceCoordinator(){
-        init();
+    public InterceptingMidiDeviceCoordinator(String synthName){
+        this.synthName = synthName;
+        init(synthName);
     }
 
     /**
@@ -37,7 +37,7 @@ class InterceptingMidiDeviceCoordinator {
      */
     public Sequencer getSequencer() {
         if(sequencer == null){
-            init();
+            init(synthName);
         }
         return sequencer;
     }
@@ -48,7 +48,7 @@ class InterceptingMidiDeviceCoordinator {
      */
     public MidiDevice getSynth() {
         if(synth == null){
-            init();
+            init(synthName);
         }
         return synth;
     }
@@ -62,7 +62,7 @@ class InterceptingMidiDeviceCoordinator {
      */
     public ISubject<Tuple2<MidiMessage, Long>> getMidiMessageBroadcaster() {
         if(interceptor == null){
-            init();
+            init(synthName);
         }
         return interceptor.getMidiMessageBroadcaster();
     }
@@ -70,11 +70,11 @@ class InterceptingMidiDeviceCoordinator {
     /**
      * Initiates the sequencer-interceptor-synthesizer system.
      */
-    private static void init(){
+    private static void init(String synthName){
         sequencer = getMidiSystemSequencer();
         clearSequencer(sequencer);
 
-        synth = getMidiSystemSynth(DEFAULT_SYNTH_NAME);
+        synth = getMidiSystemSynth(synthName);
 
         Receiver synthReceiver = getReceiverOfSynth(synth);
 
@@ -140,7 +140,7 @@ class InterceptingMidiDeviceCoordinator {
         catch(MidiUnavailableException mue){
             throw new RuntimeException("Unable to open MIDI device \"" + synthName + '"', mue);
         }
-        throw new RuntimeException("Unable to retrieve any synthesizer");
+        throw new RuntimeException("Unable to find synth " + synthName);
     }
 
     /**

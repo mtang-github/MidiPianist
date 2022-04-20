@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * A {@code HashMapResourceManager} implements {@link IResourceManager} by using a backing {@link HashMap}.
  *
- * @param <T> the type of the data stored by the resources.
+ * @param <T> the data type stored by the resources.
  */
 class HashMapResourceManager<T> implements IResourceManager<T> {
     private final Map<String, Resource<T>> resourceMap;

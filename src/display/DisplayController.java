@@ -1,3 +1,5 @@
+package display;
+
 import resource.IResourceManager;
 import util.Tuple2;
 import util.observer.IObserver;
@@ -8,7 +10,6 @@ import javax.sound.midi.MidiMessage;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-//todo: put in display package?
 public class DisplayController {
 
     private final IResourceManager<BufferedImage> imageManager;

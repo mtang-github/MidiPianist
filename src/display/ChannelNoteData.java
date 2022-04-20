@@ -1,14 +1,16 @@
+package display;
+
 import java.util.Arrays;
 
 /**
- * A {@code ChannelNoteData} represents the graphical state of all MIDI notes (0-128) on a single channel.
+ * A {@code display.ChannelNoteData} represents the graphical state of all MIDI notes (0-128) on a single channel.
  */
 public class ChannelNoteData {
 
     private final NoteState[] noteStates;
 
     /**
-     * Constructs a new {@code ChannelNoteData} with all notes off.
+     * Constructs a new {@code display.ChannelNoteData} with all notes off.
      */
     public ChannelNoteData(){
         noteStates = new NoteState[128];

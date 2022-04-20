@@ -5,7 +5,7 @@ import java.io.File;
 /**
  * A {@code Resource} holds a data object which was loaded from a file, as well as a string id and the file of origin.
  *
- * @param <T> the type of the data.
+ * @param <T> the data type.
  */
 public class Resource<T> {
     protected final String id;
@@ -21,9 +21,9 @@ public class Resource<T> {
      * @param data the data as loaded from the file.
      * @param type the {@link IResourceType} of the data.
      */
-    public Resource(String id, File fileOrigin, T data, IResourceType<T> type) {
+    public Resource(String id, File file, T data, IResourceType<T> type) {
         this.id = id;
-        this.fileOrigin = fileOrigin;
+        this.fileOrigin = file;
         this.data = data;
         this.type = type;
     }

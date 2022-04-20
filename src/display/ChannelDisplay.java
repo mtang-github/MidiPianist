@@ -1,3 +1,5 @@
+package display;
+
 import resource.IResourceManager;
 import util.DoublePoint;
 
@@ -8,7 +10,7 @@ import static midi.MidiConstants.NUM_CHANNELS;
 import static midi.MidiConstants.NUM_NOTES;
 
 /**
- * A {@code ChannelDisplay} represents the graphical representation of a single MIDI channel and is also capable
+ * A {@code display.ChannelDisplay} represents the graphical representation of a single MIDI channel and is also capable
  * of displaying itself with a {@code Graphics2D}.
  */
 public class ChannelDisplay {
@@ -36,9 +38,9 @@ public class ChannelDisplay {
     private final NoteDisplay[] noteDisplays;
 
     /**
-     * Constructs a {@code ChannelDisplay} for the specified channel at the given position.
+     * Constructs a {@code display.ChannelDisplay} for the specified channel at the given position.
      *
-     * @param channel the channel this {@code ChannelDisplay} is to represent.
+     * @param channel the channel this {@code display.ChannelDisplay} is to represent.
      * @param pos the position of the top-left corner.
      */
     public ChannelDisplay(int channel, DoublePoint pos){
@@ -61,11 +63,11 @@ public class ChannelDisplay {
     }
 
     /**
-     * Creates a {@code NoteDisplay} array representing the display information of all notes.
+     * Creates a {@code display.NoteDisplay} array representing the display information of all notes.
      *
-     * @param pos the position of the top-left corner to be fed into the individual {@code NoteDisplay} objects.
+     * @param pos the position of the top-left corner to be fed into the individual {@code display.NoteDisplay} objects.
      *
-     * @return a {@code NoteDisplay} array representing the display information of all notes.
+     * @return a {@code display.NoteDisplay} array representing the display information of all notes.
      */
     private static NoteDisplay[] makeNoteDisplays(DoublePoint pos){
         NoteDisplay[] noteDisplay = new NoteDisplay[NUM_NOTES];
@@ -140,10 +142,10 @@ public class ChannelDisplay {
     }
 
     /**
-     * Updates the graphical representation of the channel represented by this {@code ChannelDisplay} according to the
-     * specified {@code TotalNoteData}.
+     * Updates the graphical representation of the channel represented by this {@code display.ChannelDisplay} according to the
+     * specified {@code display.TotalNoteData}.
      *
-     * @param totalNoteData the {@code TotalNoteData} to read from.
+     * @param totalNoteData the {@code display.TotalNoteData} to read from.
      */
     public void readNoteData(TotalNoteData totalNoteData){
         for(int note = 0; note < 128; ++note){
@@ -157,7 +159,7 @@ public class ChannelDisplay {
     }
 
     /**
-     * Draws a graphical representation of the channel represented by this {@code ChannelDisplay} with the given
+     * Draws a graphical representation of the channel represented by this {@code display.ChannelDisplay} with the given
      * {@code Graphics2D} and image manager.
      *
      * @param g2d the {@code Graphics2D} to draw with.

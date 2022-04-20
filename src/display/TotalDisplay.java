@@ -1,3 +1,5 @@
+package display;
+
 import resource.IResourceManager;
 import util.DoublePoint;
 
@@ -7,7 +9,7 @@ import java.awt.image.BufferedImage;
 import static midi.MidiConstants.NUM_CHANNELS;
 
 /**
- * A {@code TotalDisplay} represents the graphical representation of all MIDI channels and is also capable
+ * A {@code display.TotalDisplay} represents the graphical representation of all MIDI channels and is also capable
  * of displaying itself with a {@code Graphics2D}.
  */
 public class TotalDisplay {
@@ -17,18 +19,18 @@ public class TotalDisplay {
     private final ChannelDisplay[] channelDisplays;
 
     /**
-     * Constructs a {@code TotalDisplay} with the upper-left corner at (0, 0).
+     * Constructs a {@code display.TotalDisplay} with the upper-left corner at (0, 0).
      */
     public TotalDisplay(){
         channelDisplays = makeChannelDisplays(new DoublePoint());
     }
 
     /**
-     * Creates a {@code ChannelDisplay} array representing the display information of all channels.
+     * Creates a {@code display.ChannelDisplay} array representing the display information of all channels.
      *
-     * @param pos the position of the top-left corner to be fed into the individual {@code ChannelDisplay} objects.
+     * @param pos the position of the top-left corner to be fed into the individual {@code display.ChannelDisplay} objects.
      *
-     * @return a {@code ChannelDisplay} array representing the display information of all channels.
+     * @return a {@code display.ChannelDisplay} array representing the display information of all channels.
      */
     private static ChannelDisplay[] makeChannelDisplays(DoublePoint pos){
         ChannelDisplay[] channelDisplays = new ChannelDisplay[NUM_CHANNELS];
@@ -41,10 +43,10 @@ public class TotalDisplay {
     }
 
     /**
-     * Updates the graphical representation of all channels according to the specified {@code TotalNoteData}. Updates
-     * the specified {@code TotalNoteData} afterwards.
+     * Updates the graphical representation of all channels according to the specified {@code display.TotalNoteData}. Updates
+     * the specified {@code display.TotalNoteData} afterwards.
      *
-     * @param totalNoteData the {@code TotalNoteData} to read from and to update.
+     * @param totalNoteData the {@code display.TotalNoteData} to read from and to update.
      */
     public void readAndUpdateNoteData(TotalNoteData totalNoteData){
         for(int channel = 0; channel < NUM_CHANNELS; ++channel){
