@@ -25,6 +25,8 @@ class InterceptingMidiDeviceCoordinator {
     /**
      * Constructs an {@code InterceptingMidiDeviceCoordinator}, initiating the sequencer-interceptor-synthesizer
      * system.
+     *
+     * @param synthName the name of the synth.
      */
     public InterceptingMidiDeviceCoordinator(String synthName){
         this.synthName = synthName;
@@ -69,6 +71,8 @@ class InterceptingMidiDeviceCoordinator {
 
     /**
      * Initiates the sequencer-interceptor-synthesizer system.
+     *
+     * @param synthName the name of the synth.
      */
     private static void init(String synthName){
         sequencer = getMidiSystemSequencer();

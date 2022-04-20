@@ -21,6 +21,8 @@ public class MidiController {
 
     /**
      * Constructs a {@code MidiController} and initiates the underlying MIDI system given the name of the synth.
+     *
+     * @param synthName the name of the synth.
      */
     public MidiController(String synthName){
         this.midiDeviceCoordinator = new InterceptingMidiDeviceCoordinator(synthName);
