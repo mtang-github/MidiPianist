@@ -61,33 +61,39 @@ final class Main {
      * Sets up and coordinates the various high-level parts of the program and starts the main loop.
      */
     private static void setup() {
-        System.setProperty("sun.java2d.d3d", "true");
+        try {
+            System.setProperty("sun.java2d.d3d", "true");
 
-        makeResourceController();
-        if (Thread.interrupted()) {
-            cleanUp();
-            return;
+            makeResourceController();
+            if (Thread.interrupted()) {
+                cleanUp();
+                return;
+            }
+
+            makeWindowController();
+            if (Thread.interrupted()) {
+                cleanUp();
+                return;
+            }
+
+            makeMidiController();
+            if (Thread.interrupted()) {
+                cleanUp();
+                return;
+            }
+
+            makeDisplayController();
+            if (Thread.interrupted()) {
+                cleanUp();
+                return;
+            }
+
+            makeAndRunGameLoop();
         }
-
-        makeWindowController();
-        if (Thread.interrupted()) {
+        catch(Exception e){
+            System.err.println(e.getMessage());
             cleanUp();
-            return;
         }
-
-        makeMusicController();
-        if (Thread.interrupted()) {
-            cleanUp();
-            return;
-        }
-
-        makeDisplayController();
-        if (Thread.interrupted()) {
-            cleanUp();
-            return;
-        }
-
-        makeAndRunGameLoop();
     }
 
     /**
@@ -109,7 +115,7 @@ final class Main {
     /**
      * Creates the {@link MidiController}. Attaches the window file drop broadcaster to the track start receiver.
      */
-    private static void makeMusicController() {
+    private static void makeMidiController() {
         midiController = new MidiController(synthName);
         windowController.getFileDropBroadcaster().attach(fileList -> {
             for(File file : fileList){

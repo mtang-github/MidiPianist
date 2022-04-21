@@ -133,18 +133,20 @@ class InterceptingMidiDeviceCoordinator {
      * @throws RuntimeException if the specified synthesizer cannot be found or is otherwise unavailable.
      */
     private static MidiDevice getMidiSystemSynth(String synthName){
+        StringBuilder listOfMidiDevices = new StringBuilder();
         try {
             for (MidiDevice.Info info : MidiSystem.getMidiDeviceInfo()) {
                 String name = info.getName();
                 if (name.equals(synthName)) {
                     return MidiSystem.getMidiDevice(info);
                 }
+                listOfMidiDevices.append('\n').append(name);
             }
         }
         catch(MidiUnavailableException mue){
-            throw new RuntimeException("Unable to open MIDI device \"" + synthName + '"', mue);
+            throw new RuntimeException("Unable to open synth: \"" + synthName + '"', mue);
         }
-        throw new RuntimeException("Unable to find synth " + synthName);
+        throw new RuntimeException("Unable to find synth: " + synthName + "\nlist of midi devices:" + listOfMidiDevices);
     }
 
     /**
